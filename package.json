@@ -4,7 +4,7 @@
   "description": "CRM with notifications to follow up",
   "main": "server.js",
   "scripts": {
-    "test": "mocha",
+    "test": "mocha --exit",
     "start": "node server.js"
   },
   "repository": {
@@ -16,5 +16,15 @@
   "bugs": {
     "url": "https://github.com/KliCk5000/node-capstone/issues"
   },
-  "homepage": "https://github.com/KliCk5000/node-capstone#readme"
+  "homepage": "https://github.com/KliCk5000/node-capstone#readme",
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "chai-http": "^4.2.0",
+    "faker": "^4.1.0",
+    "mocha": "^5.2.0"
+  },
+  "dependencies": {
+    "mongoose": "^5.4.0",
+    "morgan": "^1.9.1"
+  }
 }
