@@ -1,0 +1,20 @@
+{
+  "name": "nodecapstone",
+  "version": "1.0.0",
+  "description": "CRM with notifications to follow up",
+  "main": "server.js",
+  "scripts": {
+    "test": "mocha",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/KliCk5000/node-capstone.git"
+  },
+  "author": "Nick Dean",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/KliCk5000/node-capstone/issues"
+  },
+  "homepage": "https://github.com/KliCk5000/node-capstone#readme"
+}

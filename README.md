@@ -43,13 +43,13 @@ Future features to implement:
 
 MVP Important:
 
+- Landing page to describe what the app is (requirement for project)
 - List or Directory of clients
 - Add client contact, look up pre-existing client or add new client
 - Notes: enter notes
 
 Future Feature screens:
 
-- Landing page to describe what the app is (requirement for project)
 - Sign-up or log-in screen, and a way to reset password
 - After login, see any alerts for contact reminders
 Click on their name to go to their record
@@ -60,10 +60,10 @@ Possibly click on call/text/email to do the action and automatically create log 
 - Date/Time for reminder to follow up
 - Recurring reminder?
 - Click to view recent contacts with this client
-
+a
 ## User flow
 
-| Landing Page    | List of Directories        | Client Details            |
+| Landing Page    | List of Clients            | Client Details            |
 | ------------    | -------------------        | -------------             |
 | app info        | view brief details         | view all details          |
 | sign up/ log in | click to open more details | create or set reminder    |
