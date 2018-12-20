@@ -4,6 +4,6 @@ deploy:
   provider: heroku
   api_key:
     secure: H1IPVdgbBf+wXkAaqYe+VuavfljWw/ptvJW+shfgbA/4+S4R8gpqIET5oJM73h1PxR2nXE39dr+Qf3N/7RgqWIsRL1FHisv44ddW7WUSNmvgJ09NAY/dw9P6q9IGUU5hQHZJtZpk16/x5WJwmy44X8edpjrpPTH12/F9NYeZqw+LZdmN2FxmZUN57oFZrKS6OWgwj+viTF+KgBQn/zsV8kmTCyBxTLe650mZY+vccSgVrCOspc99j5KLxjM/7Qt6+NBeCenVNlpolLaS9PVCetaC9aDOtZ4FMI03X4l4Zn/mDUWu/ZIkWiv6ih/ZCjzH5Vn/EbQGJMfo+oVZuKmy4xgRMnjhDBuqN4Kh/ls066sqYKx3TG8azeBYpYDnd0E2x3y6uGkOJ9i3LXFPaV0DkyUHa6RovNFiDQ/NNU+kD/UEgyWjUHtojmbEmi0iLHO9jhQ6yZEXenlOsYjdSy08oLbkMY/L/irdqJrUZkSf0RRs470rFjPOLkp/7XUVRr/ucLtmQTD/+BVkyIbnXAbfSMxFBnHPDIHIqSAvBNlfT1ji0WKg63d9dmL0GJR27YRINHWgUaI3PJaHr9J27+n+zbqUbH0yQ9cN0+kJuUD2blrexoEuYbT5LhLmZQX6ES2G0af+ugsGd3r2KdcJ8rZpT/aDReAc6g2bJgt5Ck973KY=
-  app: node-capstone
+  app: floating-bayou-15598
   on:
     repo: KliCk5000/node-capstone
