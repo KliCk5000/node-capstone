@@ -20,6 +20,7 @@ MVP important:
 - **Add notes to client**
 
 Future features to implement:
+
 - Sign up
 - Log in
 - View details of a client
@@ -39,6 +40,29 @@ Future features to implement:
 - Notes
 - Reminders
 
+## Schemas
+
+Users - id
+email,
+password,
+list of client
+
+company -
+name,
+phone number,
+address
+
+Notes -
+name,
+description,
+id of user/client/company
+
+Reminders -
+name,
+id of user/client,
+created time,
+time to be sent
+
 ## Screens the user will interact with:
 
 MVP Important:
@@ -52,28 +76,29 @@ Future Feature screens:
 
 - Sign-up or log-in screen, and a way to reset password
 - After login, see any alerts for contact reminders
-Click on their name to go to their record
-Possibly click on call/text/email to do the action and automatically create log of communication
+  Click on their name to go to their record
+  Possibly click on call/text/email to do the action and automatically create log of communication
 - Once the correct client is found or created, add point of contact (could use the word point in naming of app? - Nevermind, point of contact refers to the person that a client communicates with, not the action of communicating)
 - Choose type: Phone Call/Text/Email/In Person
 - Followup Needed? Yes/No
 - Date/Time for reminder to follow up
 - Recurring reminder?
 - Click to view recent contacts with this client
-a
+  a
+
 ## User flow
 
-| Landing Page    | List of Clients            | Client Details            |
-| ------------    | -------------------        | -------------             |
-| app info        | view brief details         | view all details          |
-| sign up/ log in | click to open more details | create or set reminder    |
-|                 | delete client              | add notes to client       |
-|                 | create a new client        |                           |
+| Landing Page    | List of Clients            | Client Details         |
+| --------------- | -------------------------- | ---------------------- |
+| app info        | view brief details         | view all details       |
+| sign up/ log in | click to open more details | create or set reminder |
+|                 | delete client              | add notes to client    |
+|                 | create a new client        |                        |
 
 ## Timeline
 
 - [ ] Design MVP - 2 hours
-- [ ] Setup CI, tests, and first deployment - 2 hours
+- [x] Setup CI, tests, and first deployment - 2 hours
 - [ ] Setup routes and add tests - 2 hours
 - [ ] Define Your API by Building Your Client - 5 hours
 - [ ] Provision your database - 1 hour
