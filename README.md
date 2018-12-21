@@ -8,7 +8,7 @@ A Client Relationship Manager (CRM) where you can keep track of your clients, in
 
 ## User stories:
 
-**As a user I should be able to...**
+**As a user I should be able to track my many clients and keep track of when I should follow up with them, so that I can increse engagement with my business**
 
 MVP important:
 
