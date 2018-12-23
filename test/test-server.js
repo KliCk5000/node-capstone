@@ -5,6 +5,7 @@ const faker = require("faker");
 const mongoose = require("mongoose");
 
 const { app } = require("../server");
+const { PORT, TEST_DATABASE_URL } = require("../config");
 
 const expect = chai.expect;
 
