@@ -9,7 +9,7 @@ function displayClients(data) {
 }
 
 function getClients(callbackFunction) {
-  fetch('http://localhost:8080/clients')
+  fetch('/clients')
     .then(response => response.json())
     .then(responseJson => callbackFunction(responseJson))
 }
