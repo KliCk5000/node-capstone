@@ -1,15 +1,15 @@
 function displayClients(data) {
   data.forEach(element => {
-    $('body').append(
-      ` <h2>${element.id}</h2>
-        <p>${element.firstName}</p>
-      `
-    )
+    let clientString = ''
+    Object.entries(element).forEach(([key, value]) => {
+      clientString += `<p><strong>${key}:</strong> ${value}</p>`
+    })
+    $('body').append(`${clientString}<br/>`)
   })
 }
 
 function getClients(callbackFunction) {
-  fetch('/clients')
+  fetch('/api/clients')
     .then(response => response.json())
     .then(responseJson => callbackFunction(responseJson))
 }

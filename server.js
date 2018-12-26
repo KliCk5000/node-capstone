@@ -1,9 +1,6 @@
 const express = require('express')
 const morgan = require('morgan')
-// const faker = require('faker');
 const mongoose = require('mongoose')
-
-const { Client } = require('./models')
 
 // Change mongoose's promise to ES6
 mongoose.Promise = global.Promise
@@ -14,20 +11,13 @@ const { PORT, DATABASE_URL } = require('./config')
 // Create the express app
 const app = express()
 
-// Let express know to grab files from public folder
-app.use(express.static('public'))
-app.use(morgan('common')) // Our server logger
+// Set up routs
+const Client = require('./api/clients-router')
 
-app.get('/clients', (req, res) => {
-  Client.find().then(clients => {
-    res.json(
-      clients.map(client => ({
-        id: client._id,
-        firstName: client.firstName
-      }))
-    )
-  })
-})
+// Let express know to grab files from public folder
+app.use(morgan('common')) // Our server logger
+app.use(express.static('public'))
+app.use('/api/clients', Client)
 
 let server
 
