@@ -7,3 +7,9 @@ deploy:
   app: floating-bayou-15598
   on:
     repo: KliCk5000/node-capstone
+notifications:
+  email:
+    recipients:
+      - klick5000@gmail.com
+    on_success: always
+    on_failure: always
