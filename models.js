@@ -2,16 +2,25 @@ const mongoose = require('mongoose')
 
 mongoose.Promise = global.Promise
 
-// User Schema
-const UserSchema = mongoose.Schema({
-  username: { type: String, required: true, unique: true },
-  password: { type: String, required: true },
-  firstName: { type: String, default: '' },
-  lastName: { type: String, default: '' },
-  clientList: [ClientSchema]
+// Reminders Schema
+const ReminderSchema = mongoose.Schema({
+  user: { type: mongoose.Schema.Types.ObjectId, ref: 'Client' },
+  name: { type: String, default: '' },
+  description: { type: String, default: '' },
+  createdTime: { type: String, default: '' },
+  sendTime: { type: String, default: '' }
 })
 
-const User = mongoose.model('User', UserSchema)
+const Reminder = mongoose.model('Reminder', ReminderSchema)
+
+// Note Schema
+const NoteSchema = mongoose.Schema({
+  user: { type: mongoose.Schema.Types.ObjectId, ref: 'Client' },
+  name: { type: String, default: '' },
+  description: { type: String, default: '' }
+})
+
+const Note = mongoose.model('Note', NoteSchema)
 
 // Client Schema
 const ClientSchema = mongoose.Schema({
@@ -27,24 +36,15 @@ const ClientSchema = mongoose.Schema({
 
 const Client = mongoose.model('Client', ClientSchema)
 
-// Note Schema
-const NoteSchema = mongoose.Schema({
-  user: { type: mongoose.Schema.Types.ObjectId, ref: 'Client' },
-  name: { type: String, default: '' },
-  description: { type: String, default: '' }
+// User Schema
+const UserSchema = mongoose.Schema({
+  username: { type: String, required: true, unique: true },
+  password: { type: String, required: true },
+  firstName: { type: String, default: '' },
+  lastName: { type: String, default: '' },
+  clientList: [ClientSchema]
 })
 
-const Note = mongoose.model('Note', NoteSchema)
-
-// Reminders Schema
-const ReminderSchema = mongoose.Schema({
-  user: { type: mongoose.Schema.Types.ObjectId, ref: 'Client' },
-  name: { type: String, default: '' },
-  description: { type: String, default: '' },
-  createdTime: { type: String, default: '' },
-  sendTime: { type: String, default: '' }
-})
-
-const Reminder = mongoose.model('Reminder', ReminderSchema)
+const User = mongoose.model('User', UserSchema)
 
 module.exports = { User, Client, Note, Reminder }
