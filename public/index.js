@@ -60,15 +60,15 @@ function getClients(callbackFunction) {
 }
 
 function displayClients(data) {
-  for (const index in data.clients) {
+  data.clients.forEach(element => {
     $('body').append(
-      ` <h2>${data.clients[index].name}</h2>
-        <p>${data.clients[index].company}</p>
-        <p>${data.clients[index].address}</p>
-        <p>${data.clients[index].phoneNumber}</p>
+      ` <h2>${element.name}</h2>
+        <p>${element.company}</p>
+        <p>${element.address}</p>
+        <p>${element.phoneNumber}</p>
       `
     )
-  }
+  })
 }
 
 function getAndDisplayClients() {

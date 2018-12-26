@@ -1,24 +1,31 @@
+/* eslint-disable no-unused-expressions */
 const chai = require('chai')
 const chaiHttp = require('chai-http')
 const mocha = require('mocha')
-const faker = require('faker')
-const mongoose = require('mongoose')
 
-const { app } = require('../server')
+const { app, runServer, closeServer } = require('../server')
 const { PORT, TEST_DATABASE_URL } = require('../config')
 
-// eslint-disable-next-line prefer-destructuring
-const expect = chai.expect
+const { expect } = chai
 
 chai.use(chaiHttp)
 
 mocha.describe('Index page', () => {
-  mocha.it('should return 200 status', () => {
-    return chai
+  before(() => {
+    runServer(TEST_DATABASE_URL, PORT)
+  })
+
+  after(() => {
+    closeServer()
+  })
+
+  mocha.it('should return 200 status', () =>
+    chai
       .request(app)
       .get('/')
       .then(res => {
         expect(res).to.have.status(200)
+        expect(res).to.be.html
       })
-  })
+  )
 })

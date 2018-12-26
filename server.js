@@ -16,14 +16,49 @@ const app = express()
 app.use(express.static('public'))
 app.use(morgan('common')) // Our server logger
 
-if (require.main === module) {
-  app.listen(process.env.PORT || 8080, () => {
-    console.info(`App listening on ${this.address().port}`)
+let server
+
+function runServer(databaseUrl = DATABASE_URL, port = PORT) {
+  const options = { useCreateIndex: true, useNewUrlParser: true }
+  return new Promise((resolve, reject) => {
+    mongoose.connect(
+      databaseUrl,
+      options,
+      err => {
+        if (err) {
+          return reject(err)
+        }
+        server = app
+          .listen(port, () => {
+            console.log(`Your app is listening on port ${port}`)
+            return resolve()
+          })
+          .on('error', error => {
+            mongoose.disconnect()
+            return reject(error)
+          })
+      }
+    )
   })
 }
 
-function runServer(databaseUrl = DATABASE_URL, port = PORT) {}
+function closeServer() {
+  return mongoose.disconnect().then(
+    () =>
+      new Promise((resolve, reject) => {
+        console.log('Closing Server')
+        server.close(error => {
+          if (error) {
+            return reject(error)
+          }
+          return resolve()
+        })
+      })
+  )
+}
 
-function closeServer() {}
+if (require.main === module) {
+  runServer(DATABASE_URL).catch(error => console.error(error))
+}
 
-module.exports = { app }
+module.exports = { app, runServer, closeServer }
