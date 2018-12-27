@@ -16,6 +16,7 @@ const Client = require('./api/clients-router')
 
 // Let express know to grab files from public folder
 app.use(morgan('common')) // Our server logger
+app.use(express.json())
 app.use(express.static('public'))
 app.use('/api/clients', Client)
 

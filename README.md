@@ -99,9 +99,10 @@ Future Feature screens:
 
 ## Timeline
 
-- [ ] Design MVP - 2 hours
+- [x] Design MVP - 2 hours
 - [x] Setup CI, tests, and first deployment - 2 hours
-- [ ] Setup routes and add tests - 2 hours
+- [x] Setup routes
+- [ ] ...and add tests - 2 hours
 - [ ] Define Your API by Building Your Client - 5 hours
 - [ ] Provision your database - 1 hour
 - [ ] Complete GET endpoint and test - 6 hours
