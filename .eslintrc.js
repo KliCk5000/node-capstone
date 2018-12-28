@@ -5,15 +5,16 @@ module.exports = {
     mongo: true,
     mocha: true,
     es6: true,
-    browser: true
+    browser: true,
   },
-  extends: ['airbnb', 'prettier'],
-  plugins: ['prettier'],
+  extends: ['airbnb-base', 'airbnb'],
+  plugins: [],
   rules: {
-    'prettier/prettier': ['error'],
     'consistent-return': 'off',
-    'no-underscore-dangle': ['error', { allow: ['_id'] }],
+    // 'implicit-arrow-linebreak': ['error', 'beside'],
+    // 'arrow-parens': 'always',
+    // 'no-underscore-dangle': ['error', { allow: ['_id'] }],
     'no-console': process.env.NODE_ENV === 'production' ? 2 : 0,
-    'no-debugger': process.env.NODE_ENV === 'production' ? 2 : 0
-  }
-}
+    'no-debugger': process.env.NODE_ENV === 'production' ? 2 : 0,
+  },
+};

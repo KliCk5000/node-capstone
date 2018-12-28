@@ -1,5 +1,7 @@
 module.exports = {
+  eslintIntegration: true,
   tabWidth: 2,
-  semi: false,
-  singleQuote: true
-}
+  semi: true,
+  singleQuote: true,
+  trailingComma: 'all',
+};

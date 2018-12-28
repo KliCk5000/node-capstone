@@ -1,68 +1,67 @@
-const express = require('express')
-const morgan = require('morgan')
-const mongoose = require('mongoose')
+const express = require('express');
+const morgan = require('morgan');
+const mongoose = require('mongoose');
 
 // Change mongoose's promise to ES6
-mongoose.Promise = global.Promise
+mongoose.Promise = global.Promise;
 
 // Variables needed from configs.js
-const { PORT, DATABASE_URL } = require('./config')
+const { PORT, DATABASE_URL } = require('./config');
 
 // Create the express app
-const app = express()
+const app = express();
 
 // Set up routs
-const Client = require('./api/clients-router')
+const Client = require('./api/clients-router');
 
 // Let express know to grab files from public folder
-app.use(morgan('common')) // Our server logger
-app.use(express.json())
-app.use(express.static('public'))
-app.use('/api/clients', Client)
+app.use(morgan('common')); // Our server logger
+app.use(express.json());
+app.use(express.static('public'));
+app.use('/api/clients', Client);
 
-let server
+let server;
 
 function runServer(databaseUrl = DATABASE_URL, port = PORT) {
-  const options = { useCreateIndex: true, useNewUrlParser: true }
+  const options = { useCreateIndex: true, useNewUrlParser: true };
   return new Promise((resolve, reject) => {
     mongoose.connect(
       databaseUrl,
       options,
-      err => {
+      (err) => {
         if (err) {
-          return reject(err)
+          return reject(err);
         }
         server = app
           .listen(port, () => {
-            console.log(`Your app is listening on port ${port}`)
-            return resolve()
+            console.log(`Your app is listening on port ${port}`);
+            return resolve();
           })
-          .on('error', error => {
-            mongoose.disconnect()
-            return reject(error)
-          })
-      }
-    )
-  })
+          .on('error', (error) => {
+            mongoose.disconnect();
+            return reject(error);
+          });
+      },
+    );
+  });
 }
 
 function closeServer() {
   return mongoose.disconnect().then(
-    () =>
-      new Promise((resolve, reject) => {
-        console.log('Closing Server')
-        server.close(error => {
-          if (error) {
-            return reject(error)
-          }
-          return resolve()
-        })
-      })
-  )
+    () => new Promise((resolve, reject) => {
+      console.log('Closing Server');
+      server.close((error) => {
+        if (error) {
+          return reject(error);
+        }
+        return resolve();
+      });
+    }),
+  );
 }
 
 if (require.main === module) {
-  runServer(DATABASE_URL).catch(error => console.error(error))
+  runServer(DATABASE_URL).catch(error => console.error(error));
 }
 
-module.exports = { app, runServer, closeServer }
+module.exports = { app, runServer, closeServer };
