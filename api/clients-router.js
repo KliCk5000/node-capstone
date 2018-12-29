@@ -65,11 +65,29 @@ router.post('/', (req, res) => {
 });
 
 router.delete('/:id', (req, res) => {
-  res.status(404).json({ message: 'Delete endpoint not yet implemented' });
+  Client.findByIdAndDelete(req.params.id).then(() => {
+    console.log(`Deleted blog post with id \`${req.params.id}\``);
+    res.status(204).end();
+  });
 });
 
 router.put('/:id', (req, res) => {
-  res.status(404).json({ message: 'Put endpoint not yet implemented' });
+  // Make sure url ID and body ID are matching
+  if (!(req.params.id && req.body.id && req.params.id === req.body.id)) {
+    return res.status(400).json({ error: 'Request path id and request body id values must match' });
+  }
+  // Make sure the fields match up to 'updateable' fields
+  const updated = {};
+  const updateableFields = ['company', 'address', 'phoneNumber', 'email', 'notes', 'reminders'];
+  updateableFields.forEach((field) => {
+    if (field in req.body) {
+      updated[field] = req.body[field];
+    }
+  });
+  // FindIDandUpdate
+  Client.findByIdAndUpdate(req.params.id, { $set: updated }, { new: true })
+    .then(updatedPost => res.status(200).json(updatedPost))
+    .catch(error => res.status(500).json({ message: error }));
 });
 
 module.exports = router;

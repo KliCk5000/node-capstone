@@ -1,7 +1,9 @@
 function displayClients(data) {
   data.forEach((element) => {
     let clientString = '';
-    clientString = `<p><strong>Name:</strong> ${element.firstName} ${element.lastName}</p>`;
+    clientString += `<p><strong>Name:</strong> ${element.firstName} ${element.lastName}</p>`;
+    clientString += `<p><strong>Phone:</strong> ${element.phoneNumber}</p>`;
+    clientString += `<p><strong>Email:</strong> ${element.email}</p>`;
     console.log(element);
     // NOTE: This code shows all key value pairs instead
     // Object.entries(element).forEach(([key, value]) => {
