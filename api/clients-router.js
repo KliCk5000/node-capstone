@@ -66,7 +66,7 @@ router.post('/', (req, res) => {
 
 router.delete('/:id', (req, res) => {
   Client.findByIdAndDelete(req.params.id).then(() => {
-    console.log(`Deleted blog post with id \`${req.params.id}\``);
+    console.log(`Deleted client with id \`${req.params.id}\``);
     res.status(204).end();
   });
 });

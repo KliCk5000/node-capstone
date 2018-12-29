@@ -13,7 +13,7 @@ module.exports = {
     'consistent-return': 'off',
     // 'implicit-arrow-linebreak': ['error', 'beside'],
     // 'arrow-parens': 'always',
-    // 'no-underscore-dangle': ['error', { allow: ['_id'] }],
+    'no-underscore-dangle': ['error', { allow: ['_id'] }],
     'no-console': process.env.NODE_ENV === 'production' ? 2 : 0,
     'no-debugger': process.env.NODE_ENV === 'production' ? 2 : 0,
   },

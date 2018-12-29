@@ -14,6 +14,53 @@
 
   <body>
     <header role="banner"><h1>List of Clients</h1></header>
+    <section role="region" class="client-add">
+      <form class="client-add-form">
+        <fieldset>
+          <legend>Add a client</legend>
+          <label for="client-firstName">
+            First Name <span class="required"> (required) </span>
+            <input
+              id="client-firstName"
+              name="client-firstName"
+              required=""
+              type="text"
+            />
+          </label>
+          <label for="client-lastName">
+            Last Name <span class="required"> (required) </span>
+            <input
+              id="client-lastName"
+              name="client-lastName"
+              required=""
+              type="text"
+            />
+          </label>
+          <label for="client-company">
+            Company
+            <input id="client-company" name="client-company" type="text" />
+          </label>
+          <label for="client-address">
+            Address
+            <input id="client-address" name="client-address" type="text" />
+          </label>
+          <label for="client-phoneNumber">
+            Phone Number
+            <input
+              id="client-phoneNumber"
+              name="client-phoneNumber"
+              type="text"
+            />
+          </label>
+          <label for="client-email">
+            Email <input id="client-email" name="client-email" type="text" />
+          </label>
+          <label for="client-add-submit">
+            <input type="submit" value="Add Client" />
+          </label>
+        </fieldset>
+      </form>
+    </section>
     <section role="region" class="client-list"></section>
     <footer role="contentinfo"></footer>
 
