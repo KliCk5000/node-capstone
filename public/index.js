@@ -37,7 +37,7 @@ function addClientToList(newClient) {
     body: JSON.stringify(newClient),
   })
     .then(response => response.json())
-    .then(getAndDisplayClients());
+    .then(() => getAndDisplayClients());
 }
 
 // function addEventHandlersToButtons() {}
