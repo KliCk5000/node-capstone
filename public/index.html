@@ -13,8 +13,12 @@
   </head>
 
   <body>
-    <header role="banner"><h1>List of Clients</h1></header>
-    <section role="region" class="client-add">
+    <section role="region" class="user-signup-login">
+      <form class="user-login-form"></form>
+      <form class="user-signup-form hidden"></form>
+    </section>
+    <header role="banner"></header>
+    <section role="region" class="client-add hidden">
       <form class="client-add-form">
         <fieldset>
           <legend>Add a client</legend>
@@ -61,7 +65,9 @@
         </fieldset>
       </form>
     </section>
-    <section role="region" class="client-list"></section>
+    <section role="region" class="client-list hidden">
+      <h1>List of Clients</h1>
+    </section>
     <footer role="contentinfo"></footer>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>

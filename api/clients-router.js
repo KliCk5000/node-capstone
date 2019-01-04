@@ -41,8 +41,9 @@ router.post('/', (req, res) => {
   // Make sure you don't already have a duplicate
   Client.findOne({ firstName: req.body.firstName }).then((clientFound) => {
     if (clientFound) {
-      const message = 'Client with that name already exists';
-      return res.status(400).send(message);
+      const error = 'Client with that name already exists';
+      console.error(error);
+      return res.status(400).json({ message: error });
     }
     // Create the client
     Client.create({

@@ -1,6 +1,7 @@
 const express = require('express');
 const morgan = require('morgan');
 const mongoose = require('mongoose');
+const passport = require('passport');
 
 // Change mongoose's promise to ES6
 mongoose.Promise = global.Promise;
@@ -12,13 +13,28 @@ const { PORT, DATABASE_URL } = require('./config');
 const app = express();
 
 // Set up routs
+const User = require('./api/users-router');
 const Client = require('./api/clients-router');
+const { router: authRouter } = require('./api/auth-router');
+const { localStrategy, jwtStrategy } = require('./api/auth-strategies');
+
+passport.use(localStrategy);
+passport.use(jwtStrategy);
 
 // Let express know to grab files from public folder
 app.use(morgan('common')); // Our server logger
 app.use(express.json());
 app.use(express.static('public'));
+app.use('/api/users', User);
+app.use('/api/auth', authRouter);
 app.use('/api/clients', Client);
+
+const jwtAuth = passport.authenticate('jwt', { session: false });
+
+// A protected endpoint which needs a valid JWT to access it
+app.get('/api/protected', jwtAuth, (req, res) => res.json({
+  data: 'pizza',
+}));
 
 let server;
 
