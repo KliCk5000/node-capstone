@@ -80,4 +80,8 @@ if (require.main === module) {
   runServer(DATABASE_URL).catch(error => console.error(error));
 }
 
-module.exports = { app, runServer, closeServer };
+module.exports = {
+  app,
+  runServer,
+  closeServer,
+};

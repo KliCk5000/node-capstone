@@ -1,10 +1,13 @@
 const express = require('express');
+const passport = require('passport');
 
 const router = express.Router();
 
 const { Client } = require('../models');
 
-router.get('/', (req, res) => {
+const jwtAuth = passport.authenticate('jwt', { session: false });
+
+router.get('/', jwtAuth, (req, res) => {
   Client.find()
     .then((clients) => {
       res.json(clients);
@@ -15,7 +18,7 @@ router.get('/', (req, res) => {
     });
 });
 
-router.get('/:id', (req, res) => {
+router.get('/:id', jwtAuth, (req, res) => {
   Client.findById(req.params.id)
     .then((client) => {
       res.json(client);
@@ -28,7 +31,7 @@ router.get('/:id', (req, res) => {
     });
 });
 
-router.post('/', (req, res) => {
+router.post('/', jwtAuth, (req, res) => {
   // Check that you have all required fields
   const requiredFields = ['firstName'];
   requiredFields.forEach((field) => {
@@ -65,14 +68,14 @@ router.post('/', (req, res) => {
   });
 });
 
-router.delete('/:id', (req, res) => {
+router.delete('/:id', jwtAuth, (req, res) => {
   Client.findByIdAndDelete(req.params.id).then(() => {
     console.log(`Deleted client with id \`${req.params.id}\``);
     res.status(204).end();
   });
 });
 
-router.put('/:id', (req, res) => {
+router.put('/:id', jwtAuth, (req, res) => {
   // Make sure url ID and body ID are matching
   if (!(req.params.id && req.body.id && req.params.id === req.body.id)) {
     return res.status(400).json({ error: 'Request path id and request body id values must match' });

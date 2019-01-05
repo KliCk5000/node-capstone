@@ -1,40 +1,59 @@
 /* eslint-disable no-use-before-define */
 function displayLogin() {
-  $('.user-login-form').html(`
-        <fieldset>
-          <legend>Log in</legend>
-          <div class='login-error error'></div>
-          <label for="login-user-username">Username</label>
-          <input
-            type="text"
-            name="login-user-username"
-            id="login-user-username"
-            required
-          />
-          <label for="login-user-password">Password</label>
-          <input
-            type="password"
-            name="login-user-password"
-            id="login-user-password"
-            required
-          />
-          <button type="submit">Log in</button>
-          <button class="switch-to-signup-button" type="button">
-            Sign up instead
-          </button>
-        </fieldset>`);
-  $('.switch-to-signup-button').on('click', (event) => {
-    event.preventDefault();
-    if (!$('.user-signup-form').html()) {
+  // Hide all other screens
+  $('.user-signup-form').addClass('hidden');
+  $('.client-add').addClass('hidden');
+  $('.client-list').addClass('hidden');
+  // Show the login form, even if it doesn't have the HTML yet
+  $('.user-login-form').removeClass('hidden');
+  $('.user-login-form').trigger('reset');
+  // Here is the HTML that will display
+  const loginUserFormHTML = `
+  <fieldset>
+    <legend>Log in</legend>
+    <div class='login-error error'></div>
+    <div class='login-success success'></div>
+    <label for="login-user-username">Username</label>
+    <input
+      type="text"
+      name="login-user-username"
+      id="login-user-username"
+      required
+    />
+    <label for="login-user-password">Password</label>
+    <input
+      type="password"
+      name="login-user-password"
+      id="login-user-password"
+      required
+    />
+    <button type="submit">Log in</button>
+    <button class="switch-to-signup-button" type="button">
+      Sign up instead
+    </button>
+  </fieldset>`;
+  // If the login html and button hasn't been already set, set it.
+  if (!$('.user-login-form').html()) {
+    // Login form HTML
+    $('.user-login-form').html(loginUserFormHTML);
+    // Button to switch to Login form
+    $('.switch-to-signup-button').on('click', (event) => {
+      event.preventDefault();
       displaySignup();
-    }
-    $('.user-login-form').toggleClass('hidden');
-    $('.user-signup-form').toggleClass('hidden');
-  });
+    });
+  }
 }
 
 function displaySignup() {
-  $('.user-signup-form').html(`
+  // Hide all other screens
+  $('.user-login-form').addClass('hidden');
+  $('.client-add').addClass('hidden');
+  $('.client-list').addClass('hidden');
+  // Show the signup form, even if it doesn't have the HTML yet
+  $('.user-signup-form').removeClass('hidden');
+  $('.user-signup-form').trigger('reset');
+  // Here is the HTML that will display
+  const signupUserFormHTML = `
         <fieldset>
           <legend>Sign up</legend>
           <div class='signup-error error'></div>
@@ -70,15 +89,16 @@ function displaySignup() {
           <button class="switch-to-login-button" type="button">
             Log in instead
           </button>
-        </fieldset>`);
-  $('.switch-to-login-button').on('click', (event) => {
-    event.preventDefault();
-    if (!$('.user-login-form').html()) {
+        </fieldset>`;
+  // If the signup html and button hasn't been already set, set it.
+  if (!$('.user-signup-form').html()) {
+    $('.user-signup-form').html(signupUserFormHTML);
+    // Button to switch to login form
+    $('.switch-to-login-button').on('click', (event) => {
+      event.preventDefault();
       displayLogin();
-    }
-    $('.user-signup-form').toggleClass('hidden');
-    $('.user-login-form').toggleClass('hidden');
-  });
+    });
+  }
 }
 
 function displayClients(data) {
@@ -119,6 +139,11 @@ function displayAddClientArea() {
     event.preventDefault();
     console.log(event.target.id);
     fetch(`/api/clients/${event.target.id}`, {
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${localStorage.getItem('authToken')}`,
+      },
       method: 'DELETE',
     }).then(getAndDisplayClients());
   });
@@ -126,7 +151,14 @@ function displayAddClientArea() {
 }
 
 function getClients(callbackFunction) {
-  fetch('/api/clients')
+  fetch('/api/clients', {
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${localStorage.getItem('authToken')}`,
+    },
+    method: 'GET',
+  })
     .then(response => response.json())
     .then(responseJson => callbackFunction(responseJson));
 }
@@ -138,54 +170,15 @@ function getAndDisplayClients() {
 function addClientToList(newClient) {
   fetch('/api/clients', {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${localStorage.getItem('authToken')}`,
+    },
     body: JSON.stringify(newClient),
   })
     .then(response => response.json())
     .then(() => getAndDisplayClients());
-}
-
-function signUpUser(newUser) {
-  fetch('/api/users', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(newUser),
-  })
-    .then((response) => {
-      if (response.ok) {
-        return response.json();
-      }
-      throw new Error(response.statusText);
-    })
-    .then((responseJson) => {
-      console.log(responseJson);
-      $('.user-signup-form').toggleClass('hidden');
-      $('.client-add').toggleClass('hidden');
-      $('.client-list').toggleClass('hidden');
-      displayAddClientArea();
-    })
-    .catch(error => $('.signup-error').text(`${error}`));
-}
-
-function loginUser(user) {
-  $('.login-error').text('');
-  fetch('/api/auth/login', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(user),
-  })
-    .then((response) => {
-      if (response.ok) {
-        return response.json();
-      }
-      throw new Error(response.statusText);
-    })
-    .then((responseJson) => {
-      console.log(responseJson);
-      $('.user-login-form').toggleClass('hidden');
-      displayAddClientArea();
-    })
-    .catch(error => $('.login-error').text(`${error}`));
 }
 
 function addEventHandlersToButtons() {
@@ -207,11 +200,14 @@ function addEventHandlersToButtons() {
     };
     loginUser(user);
   });
+  $('.logoutUser').on('click', () => {
+    logoutUser();
+  });
 }
 
 $(() => {
-  displayLogin();
+  addEventHandlersToButtons();
+  checkForAuth();
   // displayAddClientArea();
   // getAndDisplayClients();
-  addEventHandlersToButtons();
 });

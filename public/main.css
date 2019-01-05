@@ -28,3 +28,7 @@ form fieldset{
 .error { 
   color: red;
 }
+
+.success {
+  color: limegreen;
+}
