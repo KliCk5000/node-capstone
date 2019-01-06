@@ -4,18 +4,21 @@ const passport = require('passport');
 const router = express.Router();
 
 const { Client } = require('../models');
+const { User } = require('../models');
 
 const jwtAuth = passport.authenticate('jwt', { session: false });
 
 router.get('/', jwtAuth, (req, res) => {
-  Client.find()
-    .then((clients) => {
-      res.json(clients);
-    })
-    .catch((error) => {
-      console.error(error);
-      res.status(500).json({ error: 'Something went wrong with finding Clients' });
-    });
+  User.findOne({ username: req.user.username }).then((currentUserID) => {
+    Client.find({ user: currentUserID._id })
+      .then((clients) => {
+        res.json(clients);
+      })
+      .catch((error) => {
+        console.error(error);
+        res.status(500).json({ error: 'Something went wrong with finding Clients' });
+      });
+  });
 });
 
 router.get('/:id', jwtAuth, (req, res) => {
@@ -48,23 +51,28 @@ router.post('/', jwtAuth, (req, res) => {
       console.error(error);
       return res.status(400).json({ message: error });
     }
-    // Create the client
-    Client.create({
-      firstName: req.body.firstName,
-      lastName: req.body.lastName,
-      company: req.body.company,
-      address: req.body.address,
-      phoneNumber: req.body.phoneNumber,
-      email: req.body.email,
-    })
-      .then(client => res.status(201).json({
-        _id: client.id,
-        firstName: client.firstName,
-      }))
-      .catch((error) => {
-        console.error(error);
-        res.status(500).json({ error: 'Unable to create client' });
-      });
+    // Get User id from current user
+    User.findOne({ username: req.user.username }).then((currentUser) => {
+      console.log(currentUser._id);
+      Client.create({
+        user: currentUser._id,
+        firstName: req.body.firstName,
+        lastName: req.body.lastName,
+        company: req.body.company,
+        address: req.body.address,
+        phoneNumber: req.body.phoneNumber,
+        email: req.body.email,
+      })
+        // Create the client
+        .then(client => res.status(201).json({
+          _id: client.id,
+          firstName: client.firstName,
+        }))
+        .catch((error) => {
+          console.error(error);
+          res.status(500).json({ error: 'Unable to create client' });
+        });
+    });
   });
 });
 

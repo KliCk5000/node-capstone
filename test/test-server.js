@@ -28,16 +28,16 @@ describe('Client Relationship Management Tests', () => {
       }));
   });
 
-  describe('Client GET request to "/api/clients/"', () => {
-    it('should return a list of clients', () => chai
-      .request(app)
-      .get('/api/clients/')
-      .then((res) => {
-        expect(res).to.have.status(200);
-        expect(res).to.be.json;
-        res.body.forEach(item => expect(item).to.be.a('object'));
-      }));
-  });
+  // describe('Client GET request to "/api/clients/"', () => {
+  //   it('should return a list of clients', () => chai
+  //     .request(app)
+  //     .get('/api/clients/')
+  //     .then((res) => {
+  //       expect(res).to.have.status(200);
+  //       expect(res).to.be.json;
+  //       res.body.forEach(item => expect(item).to.be.a('object'));
+  //     }));
+  // });
 
   describe('Client POST request to "/api/clients/"', () => {
     it('should add a client to user list of clients', () => {

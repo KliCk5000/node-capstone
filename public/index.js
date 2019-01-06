@@ -1,3 +1,5 @@
+/* eslint-disable no-undef */
+/* eslint-disable no-unused-vars */
 /* eslint-disable no-use-before-define */
 function displayLogin() {
   // Hide all other screens
@@ -102,20 +104,22 @@ function displaySignup() {
 }
 
 function displayClients(data) {
-  let clientListHTML = '';
-  data.forEach((element) => {
-    clientListHTML += `<p><strong>Name:</strong> ${element.firstName} ${element.lastName}</p>`;
-    clientListHTML += `<p><strong>Phone:</strong> ${element.phoneNumber}</p>`;
-    clientListHTML += `<p><strong>Email:</strong> ${element.email}</p>`;
-    clientListHTML += `<input type="button" class="delete-client" id="${
-      element._id
-    }" value="delete">`;
-    // NOTE: This code shows all key value pairs instead
-    // Object.entries(element).forEach(([key, value]) => {
-    //   clientString += `<p><strong>${key}:</strong> ${value}</p>`;
-    // });
-  });
-  $('.client-list').html(`<div class="client">${clientListHTML}</div><br/>`);
+  if (!data.error) {
+    let clientListHTML = '';
+    data.forEach((element) => {
+      clientListHTML += `<p><strong>Name:</strong> ${element.firstName} ${element.lastName}</p>`;
+      clientListHTML += `<p><strong>Phone:</strong> ${element.phoneNumber}</p>`;
+      clientListHTML += `<p><strong>Email:</strong> ${element.email}</p>`;
+      clientListHTML += `<input type="button" class="delete-client" id="${
+        element._id
+      }" value="delete">`;
+      // NOTE: This code shows all key value pairs instead
+      // Object.entries(element).forEach(([key, value]) => {
+      //   clientString += `<p><strong>${key}:</strong> ${value}</p>`;
+      // });
+    });
+    $('.client-list').html(`<div class="client">${clientListHTML}</div><br/>`);
+  }
 }
 
 function displayAddClientArea() {
@@ -137,7 +141,6 @@ function displayAddClientArea() {
   });
   $('.client-list').on('click', '.delete-client', (event) => {
     event.preventDefault();
-    console.log(event.target.id);
     fetch(`/api/clients/${event.target.id}`, {
       headers: {
         Accept: 'application/json',

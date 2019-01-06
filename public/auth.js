@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable no-undef */
 /* eslint-disable no-use-before-define */
 function checkForAuth() {
   const authToken = localStorage.getItem('authToken');
@@ -19,13 +21,11 @@ function loginUser(user) {
       if (response.ok) {
         return response.json();
       }
-      console.log(response);
       throw new Error(response);
     })
     .then((responseJson) => {
-      console.log(responseJson);
       localStorage.setItem('authToken', responseJson.authToken);
-      displayAddClientArea()
+      displayAddClientArea();
     })
     .catch(error => $('.login-error').text(`${error}`));
 }
@@ -43,7 +43,6 @@ function signUpUser(newUser) {
       throw new Error(response.statusText);
     })
     .then((responseJson) => {
-      console.log(responseJson);
       $('.login-success').text('Sign-up successful! Please Log in');
       displayLogin();
     })
