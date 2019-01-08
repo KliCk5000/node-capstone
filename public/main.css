@@ -32,3 +32,9 @@ form fieldset{
 .success {
   color: limegreen;
 }
+
+.modal {
+  position: absolute;
+  z-index: 1000;
+  background-color: grey;
+}
