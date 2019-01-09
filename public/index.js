@@ -107,23 +107,19 @@ function displaySignupScreen() {
 
 function displayClientList(data) {
   if (!data.error) {
-    let clientListHTML = '';
     data.forEach((element) => {
-      clientListHTML += `<p><strong>Name:</strong> ${element.firstName} ${element.lastName}</p>`;
-      clientListHTML += `<p><strong>Phone:</strong> ${element.phoneNumber}</p>`;
-      clientListHTML += `<p><strong>Email:</strong> ${element.email}</p>`;
-      clientListHTML += `<input type="button" class="delete-client" data-id="${
+      let clientHTML = '';
+      clientHTML += `<p><strong>Name:</strong> ${element.firstName} ${element.lastName}</p>`;
+      clientHTML += `<p><strong>Phone:</strong> ${element.phoneNumber}</p>`;
+      clientHTML += `<p><strong>Email:</strong> ${element.email}</p>`;
+      clientHTML += `<input type="button" class="delete-client" data-id="${
         element._id
       }" value="delete">`;
-      clientListHTML += `<input type="button" class="update-client-modal" data-id="${
+      clientHTML += `<input type="button" class="update-client-modal" data-id="${
         element._id
       }" value="update">`;
-      // NOTE: This code shows all key value pairs instead
-      // Object.entries(element).forEach(([key, value]) => {
-      //   clientString += `<p><strong>${key}:</strong> ${value}</p>`;
-      // });
+      $('.client-list').append(`<div class="client">${clientHTML}</div>`);
     });
-    $('.client-list').html(`<div class="client">${clientListHTML}</div><br/>`);
   }
 }
 

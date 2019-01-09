@@ -41,3 +41,9 @@ form fieldset{
 .justified-center {
   justify-content: center;
 }
+
+.client {
+  margin: 5px;
+  padding: 20px;
+  border: 1px solid black;
+}
