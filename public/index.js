@@ -1,12 +1,13 @@
 /* eslint-disable no-undef */
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-use-before-define */
-function displayLogin() {
+function displayLoginScreen() {
   // Hide all other screens
   $('.user-signup-form').addClass('hidden');
   $('.client-add').addClass('hidden');
   $('.client-list').addClass('hidden');
   // Show the login form, even if it doesn't have the HTML yet
+  $('body').addClass('justified-center');
   $('.user-login-form').removeClass('hidden');
   $('.user-login-form').trigger('reset');
   // Here is the HTML that will display
@@ -41,17 +42,18 @@ function displayLogin() {
     // Button to switch to Login form
     $('.switch-to-signup-button').on('click', (event) => {
       event.preventDefault();
-      displaySignup();
+      displaySignupScreen();
     });
   }
 }
 
-function displaySignup() {
+function displaySignupScreen() {
   // Hide all other screens
   $('.user-login-form').addClass('hidden');
   $('.client-add').addClass('hidden');
   $('.client-list').addClass('hidden');
   // Show the signup form, even if it doesn't have the HTML yet
+  $('body').addClass('justified-center');
   $('.user-signup-form').removeClass('hidden');
   $('.user-signup-form').trigger('reset');
   // Here is the HTML that will display
@@ -98,21 +100,24 @@ function displaySignup() {
     // Button to switch to login form
     $('.switch-to-login-button').on('click', (event) => {
       event.preventDefault();
-      displayLogin();
+      displayLoginScreen();
     });
   }
 }
 
-function displayClients(data) {
+function displayClientList(data) {
   if (!data.error) {
     let clientListHTML = '';
     data.forEach((element) => {
       clientListHTML += `<p><strong>Name:</strong> ${element.firstName} ${element.lastName}</p>`;
       clientListHTML += `<p><strong>Phone:</strong> ${element.phoneNumber}</p>`;
       clientListHTML += `<p><strong>Email:</strong> ${element.email}</p>`;
-      clientListHTML += `<input type="button" class="delete-client" id="${
+      clientListHTML += `<input type="button" class="delete-client" data-id="${
         element._id
       }" value="delete">`;
+      clientListHTML += `<input type="button" class="update-client-modal" data-id="${
+        element._id
+      }" value="update">`;
       // NOTE: This code shows all key value pairs instead
       // Object.entries(element).forEach(([key, value]) => {
       //   clientString += `<p><strong>${key}:</strong> ${value}</p>`;
@@ -125,35 +130,44 @@ function displayClients(data) {
 function displayAddClientArea() {
   $('.user-signup-form').addClass('hidden');
   $('.user-login-form').addClass('hidden');
+  $('body').removeClass('justified-center');
   $('.client-add').removeClass('hidden');
   $('.client-list').removeClass('hidden');
-  $('.client-add-form').submit((event) => {
-    event.preventDefault();
-    const newClient = {
-      firstName: $('#client-firstName').val(),
-      lastName: $('#client-lastName').val(),
-      company: $('#client-company').val(),
-      address: $('#client-address').val(),
-      phoneNumber: $('#client-phoneNumber').val(),
-      email: $('#client-email').val(),
-    };
-    addClientToList(newClient);
-  });
   $('.client-list').on('click', '.delete-client', (event) => {
     event.preventDefault();
-    fetch(`/api/clients/${event.target.id}`, {
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${localStorage.getItem('authToken')}`,
-      },
-      method: 'DELETE',
-    }).then(getAndDisplayClients());
+    const clientId = $(event.target).data('id');
+    requestDeleteClient(clientId);
   });
-  getAndDisplayClients();
+  $('.client-list').on('click', '.update-client-modal', (event) => {
+    const clientId = $(event.target).data('id');
+    modal.open({ content: 'update', width: 340, height: 300 });
+    requestGetOneClient(clientId, (clientData) => {
+      $('#client-firstName').val(clientData.firstName);
+      $('#client-lastName').val(clientData.lastName);
+      $('#client-company').val(clientData.company);
+      $('#client-address').val(clientData.address);
+      $('#client-phoneNumber').val(clientData.phoneNumber);
+      $('#client-email').val(clientData.email);
+    });
+    $('.client-update-form').submit((event) => {
+      event.preventDefault();
+      const updatedClientInfo = {
+        firstName: $('#client-firstName').val(),
+        lastName: $('#client-lastName').val(),
+        company: $('#client-company').val(),
+        address: $('#client-address').val(),
+        phoneNumber: $('#client-phoneNumber').val(),
+        email: $('#client-email').val(),
+        id: clientId,
+      };
+      requestUpdateClient(clientId, updatedClientInfo);
+      modal.close();
+    });
+  });
+  requestGetAllClients(displayClientList);
 }
 
-function getClients(callbackFunction) {
+function requestGetAllClients(callbackFunction) {
   fetch('/api/clients', {
     headers: {
       Accept: 'application/json',
@@ -166,11 +180,20 @@ function getClients(callbackFunction) {
     .then(responseJson => callbackFunction(responseJson));
 }
 
-function getAndDisplayClients() {
-  getClients(displayClients);
+function requestGetOneClient(clientId, callbackFunction) {
+  fetch(`/api/clients/${clientId}`, {
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${localStorage.getItem('authToken')}`,
+    },
+    method: 'GET',
+  })
+    .then(response => response.json())
+    .then(responseJson => callbackFunction(responseJson));
 }
 
-function addClientToList(newClient) {
+function requestAddClient(newClient) {
   fetch('/api/clients', {
     method: 'POST',
     headers: {
@@ -181,7 +204,32 @@ function addClientToList(newClient) {
     body: JSON.stringify(newClient),
   })
     .then(response => response.json())
-    .then(() => getAndDisplayClients());
+    .then(() => requestGetAllClients(displayClientList));
+}
+
+function requestUpdateClient(clientId, updatedClient) {
+  fetch(`/api/clients/${clientId}`, {
+    method: 'PUT',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${localStorage.getItem('authToken')}`,
+    },
+    body: JSON.stringify(updatedClient),
+  })
+    .then(response => response.json())
+    .then(() => requestGetAllClients(displayClientList));
+}
+
+function requestDeleteClient(clientId) {
+  fetch(`/api/clients/${clientId}`, {
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${localStorage.getItem('authToken')}`,
+    },
+    method: 'DELETE',
+  }).then(() => requestGetAllClients(displayClientList));
 }
 
 function addEventHandlersToButtons() {
@@ -205,6 +253,22 @@ function addEventHandlersToButtons() {
   });
   $('.logoutUser').on('click', () => {
     logoutUser();
+  });
+  $('.add-client-modal').on('click', () => {
+    modal.open({ content: 'add', width: 340, height: 300 });
+    $('.client-add-form').submit((event) => {
+      event.preventDefault();
+      const newClient = {
+        firstName: $('#client-firstName').val(),
+        lastName: $('#client-lastName').val(),
+        company: $('#client-company').val(),
+        address: $('#client-address').val(),
+        phoneNumber: $('#client-phoneNumber').val(),
+        email: $('#client-email').val(),
+      };
+      requestAddClient(newClient);
+      modal.close();
+    });
   });
 }
 

@@ -18,70 +18,20 @@
       <form class="user-signup-form hidden"></form>
     </section>
 
-    <div id="location">
-
-    </div>
-
-    <button role="button" class="test-modal">test</button>
-
     <header role="banner"></header>
+
+    <h1>List of Clients</h1>
+    
     <section role="region" class="client-add hidden">
-      <input type="button" class="logoutUser" value="Log-out">
-      <form class="client-add-form">
-        <fieldset>
-          <legend>Add a client</legend>
-          <label for="client-firstName">
-            First Name <span class="required"> (required) </span>
-            <input
-              id="client-firstName"
-              name="client-firstName"
-              required=""
-              type="text"
-            />
-          </label>
-          <label for="client-lastName">
-            Last Name <span class="required"> (required) </span>
-            <input
-              id="client-lastName"
-              name="client-lastName"
-              required=""
-              type="text"
-            />
-          </label>
-          <label for="client-company">
-            Company
-            <input id="client-company" name="client-company" type="text" />
-          </label>
-          <label for="client-address">
-            Address
-            <input id="client-address" name="client-address" type="text" />
-          </label>
-          <label for="client-phoneNumber">
-            Phone Number
-            <input
-              id="client-phoneNumber"
-              name="client-phoneNumber"
-              type="text"
-            />
-          </label>
-          <label for="client-email">
-            Email <input id="client-email" name="client-email" type="text" />
-          </label>
-          <label for="client-add-submit">
-            <input type="submit" value="Add Client" />
-          </label>
-        </fieldset>
-      </form>
+      <input type="button" class="logoutUser" value="Log-out" />
+      <button role="button" class="add-client-modal">Add new client</button>
     </section>
-    <section role="region" class="client-list hidden">
-      <h1>List of Clients</h1>
-    </section>
+    <section role="region" class="client-list hidden"></section>
     <footer role="contentinfo"></footer>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script type="text/javascript" src="auth.js"></script>
     <script type="text/javascript" src="index.js"></script>
     <script type="text/javascript" src="modal/modal-window.js"></script>
-    <script type="text/javascript" src="modal/modal-init.js"></script>
   </body>
 </html>

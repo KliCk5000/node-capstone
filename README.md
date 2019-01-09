@@ -103,12 +103,12 @@ Future Feature screens:
 - [x] Setup CI, tests, and first deployment - 2 hours
 - [x] Setup routes
 - [ ] ...and add tests - 2 hours
-- [ ] Define Your API by Building Your Client - 5 hours
-- [ ] Provision your database - 1 hour
-- [ ] Complete GET endpoint and test - 6 hours
-- [ ] Complete POST endpoint and test - 6 hours
-- [ ] Complete PUT endpoint and test - 6 hours
-- [ ] Complete DELETE endpoint and test - 6 hours
+- [x] Define Your API by Building Your Client - 5 hours
+- [x] Provision your database - 1 hour
+- [x] Complete GET endpoint and test - 6 hours
+- [x] Complete POST endpoint and test - 6 hours
+- [x] Complete PUT endpoint and test - 6 hours
+- [x] Complete DELETE endpoint and test - 6 hours
 - [ ] Code the front end of the app - 8 hours
 - [ ] Gather user feedback and Write up your findings - 3 hours
 - [ ] Complete any revisions needed - 5 hours

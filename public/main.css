@@ -7,7 +7,6 @@ body {
   min-height: 100vh;
   display: flex;
   align-items: center;
-  justify-content: center;
   flex-direction: column;
 }
 
@@ -37,4 +36,8 @@ form fieldset{
   position: absolute;
   z-index: 1000;
   background-color: grey;
+}
+
+.justified-center {
+  justify-content: center;
 }
