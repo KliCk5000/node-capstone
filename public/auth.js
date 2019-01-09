@@ -6,7 +6,7 @@ function checkForAuth() {
   if (authToken) {
     displayAddClientArea();
   } else {
-    displayLogin();
+    displayLoginScreen();
   }
 }
 
@@ -44,7 +44,7 @@ function signUpUser(newUser) {
     })
     .then((responseJson) => {
       $('.login-success').text('Sign-up successful! Please Log in');
-      displayLogin();
+      displayLoginScreen();
     })
     .catch((error) => {
       console.log(error);
