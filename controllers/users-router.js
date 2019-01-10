@@ -3,7 +3,7 @@ const express = require('express');
 
 const router = express.Router();
 
-const { User } = require('../models');
+const { User } = require('../models/models');
 
 // Post this endpoint to register a new user
 router.post('/', (req, res) => {

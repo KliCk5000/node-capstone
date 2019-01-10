@@ -3,8 +3,8 @@ const passport = require('passport');
 
 const router = express.Router();
 
-const { Client } = require('../models');
-const { User } = require('../models');
+const { Client } = require('../models/models');
+const { User } = require('../models/models');
 
 const jwtAuth = passport.authenticate('jwt', { session: false });
 

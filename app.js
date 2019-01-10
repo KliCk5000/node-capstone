@@ -13,10 +13,10 @@ const { PORT, DATABASE_URL } = require('./config');
 const app = express();
 
 // Set up routs
-const User = require('./api/users-router');
-const Client = require('./api/clients-router');
-const { router: authRouter } = require('./api/auth-router');
-const { localStrategy, jwtStrategy } = require('./api/auth-strategies');
+const User = require('./controllers/users-router');
+const Client = require('./controllers/clients-router');
+const { router: authRouter } = require('./controllers/auth-router');
+const { localStrategy, jwtStrategy } = require('./middlewares/auth-strategies');
 
 passport.use(localStrategy);
 passport.use(jwtStrategy);

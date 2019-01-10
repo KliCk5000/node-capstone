@@ -2,11 +2,11 @@
   "name": "nodecapstone",
   "version": "1.0.0",
   "description": "CRM with notifications to follow up",
-  "main": "server.js",
+  "main": "app.js",
   "scripts": {
     "test": "mocha --exit",
-    "start": "node server.js",
-    "lint": "eslint server.js"
+    "start": "node app.js",
+    "lint": "eslint app.js"
   },
   "repository": {
     "type": "git",
