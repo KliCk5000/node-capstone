@@ -45,16 +45,20 @@ router.post('/', jwtAuth, (req, res) => {
     }
   });
   // Make sure you don't already have a duplicate
-  Client.findOne({
-    $and: [{ firstName: req.body.firstName }, { lastName: req.body.lastName }],
-  }).then((clientFound) => {
-    if (clientFound) {
-      const error = 'Client with that name already exists';
-      console.error(error);
-      return res.status(400).json({ message: error });
-    }
-    // Get User id from current user
-    User.findOne({ username: req.user.username }).then((currentUser) => {
+  User.findOne({ username: req.user.username }).then((currentUser) => {
+    Client.findOne({
+      $and: [
+        { username: currentUser },
+        { firstName: req.body.firstName },
+        { lastName: req.body.lastName },
+      ],
+    }).then((clientFound) => {
+      if (clientFound) {
+        const error = 'Client with that name already exists';
+        console.error(error);
+        return res.status(400).send(error);
+      }
+      // Get User id from current user
       console.log(currentUser._id);
       Client.create({
         user: currentUser._id,
@@ -92,7 +96,16 @@ router.put('/:id', jwtAuth, (req, res) => {
   }
   // Make sure the fields match up to 'updateable' fields
   const updated = {};
-  const updateableFields = ['firstName', 'lastName', 'company', 'address', 'phoneNumber', 'email', 'notes', 'reminders'];
+  const updateableFields = [
+    'firstName',
+    'lastName',
+    'company',
+    'address',
+    'phoneNumber',
+    'email',
+    'notes',
+    'reminders',
+  ];
   updateableFields.forEach((field) => {
     if (field in req.body) {
       updated[field] = req.body[field];

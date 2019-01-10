@@ -19,12 +19,12 @@ body {
   top: -10vh;
 }
 
-form fieldset{
+form fieldset {
   display: flex;
   padding: 20px;
 }
 
-.error { 
+.error {
   color: red;
 }
 
@@ -46,4 +46,9 @@ form fieldset{
   margin: 5px;
   padding: 20px;
   border: 1px solid black;
+  cursor: pointer;
+}
+
+.client:hover {
+  border: 2px solid black;
 }

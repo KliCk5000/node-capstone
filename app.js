@@ -36,6 +36,10 @@ app.get('/api/protected', jwtAuth, (req, res) => res.json({
   data: 'pizza',
 }));
 
+app.get('/*', (req, res) => {
+  res.sendFile('./public/index.html');
+});
+
 let server;
 
 function runServer(databaseUrl = DATABASE_URL, port = PORT) {

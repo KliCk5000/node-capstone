@@ -5,7 +5,12 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <title>Node Capstone</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="stylesheet" type="text/css" media="screen" href="./css/main.css" />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      media="screen"
+      href="./css/main.css"
+    />
     <meta
       name="description"
       content="A Client Relationship Manager where you can keep track of your clients, including when you should follow up with them."
@@ -13,20 +18,26 @@
   </head>
 
   <body>
+    <header role="banner" class="app-header"></header>
+
     <section role="region" class="user-signup-login">
       <form class="user-login-form"></form>
       <form class="user-signup-form hidden"></form>
     </section>
 
-    <header role="banner"></header>
+    <section rolle="region" class="clients-screen hidden">
+      <header role="banner" class="client-list-header">
+        <h1>List of Clients</h1>
+      </header>
 
-    <h1>List of Clients</h1>
-    
-    <section role="region" class="client-add hidden">
-      <input type="button" class="logoutUser" value="Log-out" />
-      <button role="button" class="add-client-modal">Add new client</button>
+      <section role="region" class="client-options">
+        <input type="button" class="logoutUser" value="Log-out" />
+        <button role="button" class="add-client-modal">Add new client</button>
+      </section>
+
+      <section role="region" class="client-list"></section>
+      <section role="region" class="client-details"></section>
     </section>
-    <section role="region" class="client-list hidden"></section>
     <footer role="contentinfo"></footer>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>

@@ -4,7 +4,7 @@
 function checkForAuth() {
   const authToken = localStorage.getItem('authToken');
   if (authToken) {
-    displayAddClientArea();
+    displayAllClientsScreen();
   } else {
     displayLoginScreen();
   }
@@ -25,7 +25,7 @@ function loginUser(user) {
     })
     .then((responseJson) => {
       localStorage.setItem('authToken', responseJson.authToken);
-      displayAddClientArea();
+      displayAllClientsScreen();
     })
     .catch(error => $('.login-error').text(`${error}`));
 }
@@ -54,5 +54,6 @@ function signUpUser(newUser) {
 
 function logoutUser() {
   localStorage.clear();
+  $('.client-list').empty();
   checkForAuth();
 }

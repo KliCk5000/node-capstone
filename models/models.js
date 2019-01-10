@@ -31,6 +31,7 @@ const ClientSchema = mongoose.Schema({
   lastName: { type: String, default: '' },
   phoneNumber: { type: String, default: '' },
   address: { type: String, default: '' },
+  company: { type: String, default: '' },
   email: { type: String, default: '' },
   notes: [NoteSchema],
   reminders: [ReminderSchema],

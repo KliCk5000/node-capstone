@@ -1,14 +1,10 @@
+/* eslint-disable no-shadow */
 /* eslint-disable no-undef */
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-use-before-define */
 function displayLoginScreen() {
-  // Hide all other screens
-  $('.user-signup-form').addClass('hidden');
-  $('.client-add').addClass('hidden');
-  $('.client-list').addClass('hidden');
-  // Show the login form, even if it doesn't have the HTML yet
-  $('body').addClass('justified-center');
-  $('.user-login-form').removeClass('hidden');
+  // Display correct screen
+  showScreenManager('login');
   $('.user-login-form').trigger('reset');
   // Here is the HTML that will display
   const loginUserFormHTML = `
@@ -48,13 +44,8 @@ function displayLoginScreen() {
 }
 
 function displaySignupScreen() {
-  // Hide all other screens
-  $('.user-login-form').addClass('hidden');
-  $('.client-add').addClass('hidden');
-  $('.client-list').addClass('hidden');
-  // Show the signup form, even if it doesn't have the HTML yet
-  $('body').addClass('justified-center');
-  $('.user-signup-form').removeClass('hidden');
+  // Display correct screen
+  showScreenManager('signup');
   $('.user-signup-form').trigger('reset');
   // Here is the HTML that will display
   const signupUserFormHTML = `
@@ -104,6 +95,82 @@ function displaySignupScreen() {
     });
   }
 }
+function displayAllClientsScreen() {
+  // Display correct screen
+  showScreenManager('client-list');
+  // Add delete client button event listener
+  $('.client-list').on('click', '.delete-client', (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+    const clientId = $(event.target)
+      .closest('.client')
+      .data('id');
+    requestDeleteClient(clientId);
+  });
+  $('.client-list').on('click', '.client', (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+    const clientId = $(event.target)
+      .closest('.client')
+      .data('id');
+    showScreenManager('client-detail');
+    displayClientDetailScreen(clientId);
+  });
+  requestGetAllClients(displayClientList);
+}
+
+function displayClientDetailScreen(clientId) {
+  $('.client-details').empty();
+  // Display correct screen
+  showScreenManager('client-details');
+  let clientString = '';
+  requestGetOneClient(clientId, (clientData) => {
+    Object.entries(clientData).forEach(([key, value]) => {
+      clientString += `<p><strong>${key}:</strong> ${value}</p>`;
+    });
+    clientString += '<input type="button" class="update-client-modal" value="update">';
+    clientString += '<input type="button" class="return-to-list" value="Go Back to list">';
+    $('.client-details').append(clientString);
+    $('.client-details').on('click', '.return-to-list', (event) => {
+      event.preventDefault();
+      event.stopPropagation();
+      showScreenManager('client-list');
+      $('.client-details').empty();
+    });
+    // Add update client button event listener
+    $('.client-details').on('click', '.update-client-modal', (event) => {
+      event.preventDefault();
+      event.stopPropagation();
+      modal.open({ content: 'update', width: 340, height: 300 });
+      requestGetOneClient(clientId, (clientData) => {
+        $('#client-firstName').val(clientData.firstName);
+        $('#client-lastName').val(clientData.lastName);
+        $('#client-company').val(clientData.company);
+        $('#client-address').val(clientData.address);
+        $('#client-phoneNumber').val(clientData.phoneNumber);
+        $('#client-email').val(clientData.email);
+      });
+      // Add event listener to the modal that popped up.
+      $('.client-update-form').submit((e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        const updatedClientInfo = {
+          firstName: $('#client-firstName').val(),
+          lastName: $('#client-lastName').val(),
+          company: $('#client-company').val(),
+          address: $('#client-address').val(),
+          phoneNumber: $('#client-phoneNumber').val(),
+          email: $('#client-email').val(),
+          id: clientId,
+        };
+        requestUpdateClient(clientId, updatedClientInfo);
+        modal.close();
+        displayClientDetailScreen(clientId);
+      });
+    });
+  });
+  // Show client details
+}
 
 function displayClientList(data) {
   if (!data.error) {
@@ -111,57 +178,13 @@ function displayClientList(data) {
     data.forEach((element) => {
       let clientHTML = '';
       clientHTML += `<p><strong>Name:</strong> ${element.firstName} ${element.lastName}</p>`;
-      clientHTML += `<p><strong>Phone:</strong> ${element.phoneNumber}</p>`;
-      clientHTML += `<p><strong>Email:</strong> ${element.email}</p>`;
-      clientHTML += `<input type="button" class="delete-client" data-id="${
-        element._id
-      }" value="delete">`;
-      clientHTML += `<input type="button" class="update-client-modal" data-id="${
-        element._id
-      }" value="update">`;
-      $('.client-list').append(`<div class="client">${clientHTML}</div>`);
+      // clientHTML += `<p><strong>Phone:</strong> ${element.phoneNumber}</p>`;
+      // clientHTML += `<p><strong>Email:</strong> ${element.email}</p>`;
+      clientHTML += '<input type="button" class="delete-client" value="delete">';
+      // clientHTML += '<input type="button" class="update-client-modal" value="update">';
+      $('.client-list').append(`<div class="client" data-id="${element._id}">${clientHTML}</div>`);
     });
   }
-}
-
-function displayAddClientArea() {
-  $('.user-signup-form').addClass('hidden');
-  $('.user-login-form').addClass('hidden');
-  $('body').removeClass('justified-center');
-  $('.client-add').removeClass('hidden');
-  $('.client-list').removeClass('hidden');
-  $('.client-list').on('click', '.delete-client', (event) => {
-    event.preventDefault();
-    const clientId = $(event.target).data('id');
-    requestDeleteClient(clientId);
-  });
-  $('.client-list').on('click', '.update-client-modal', (event) => {
-    const clientId = $(event.target).data('id');
-    modal.open({ content: 'update', width: 340, height: 300 });
-    requestGetOneClient(clientId, (clientData) => {
-      $('#client-firstName').val(clientData.firstName);
-      $('#client-lastName').val(clientData.lastName);
-      $('#client-company').val(clientData.company);
-      $('#client-address').val(clientData.address);
-      $('#client-phoneNumber').val(clientData.phoneNumber);
-      $('#client-email').val(clientData.email);
-    });
-    $('.client-update-form').submit((event) => {
-      event.preventDefault();
-      const updatedClientInfo = {
-        firstName: $('#client-firstName').val(),
-        lastName: $('#client-lastName').val(),
-        company: $('#client-company').val(),
-        address: $('#client-address').val(),
-        phoneNumber: $('#client-phoneNumber').val(),
-        email: $('#client-email').val(),
-        id: clientId,
-      };
-      requestUpdateClient(clientId, updatedClientInfo);
-      modal.close();
-    });
-  });
-  requestGetAllClients(displayClientList);
 }
 
 function requestGetAllClients(callbackFunction) {
@@ -267,6 +290,46 @@ function addEventHandlersToButtons() {
       modal.close();
     });
   });
+}
+
+function showScreenManager(screenToShow) {
+  // Hide all screens
+  $('.user-signup-login').addClass('hidden');
+  $('.user-login-form').addClass('hidden');
+  $('.user-signup-form').addClass('hidden');
+  $('.clients-screen').addClass('hidden');
+  $('.client-list-header').addClass('hidden');
+  $('.client-options').addClass('hidden');
+  $('.client-list').addClass('hidden');
+  $('.client-details').addClass('hidden');
+  $('body').removeClass('justified-center');
+
+  // Show only requested screens
+  switch (screenToShow) {
+    case 'login':
+      $('.user-signup-login').removeClass('hidden');
+      $('.user-login-form').removeClass('hidden');
+      $('body').addClass('justified-center');
+      break;
+    case 'signup':
+      $('.user-signup-login').removeClass('hidden');
+      $('.user-signup-form').removeClass('hidden');
+      $('body').addClass('justified-center');
+      break;
+    case 'client-list':
+      $('.clients-screen').removeClass('hidden');
+      $('.client-list-header').removeClass('hidden');
+      $('.client-options').removeClass('hidden');
+      $('.client-list').removeClass('hidden');
+      break;
+    case 'client-details':
+      $('.clients-screen').removeClass('hidden');
+      $('.client-details').removeClass('hidden');
+      $('body').addClass('justified-center');
+      break;
+    default:
+      break;
+  }
 }
 
 $(() => {
