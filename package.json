@@ -4,7 +4,7 @@
   "description": "CRM with notifications to follow up",
   "main": "app.js",
   "scripts": {
-    "test": "mocha --exit",
+    "test": "mocha test/**/*.js --exit",
     "start": "node app.js",
     "lint": "eslint app.js"
   },
