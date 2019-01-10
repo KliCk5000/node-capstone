@@ -107,6 +107,7 @@ function displaySignupScreen() {
 
 function displayClientList(data) {
   if (!data.error) {
+    $('.client-list').empty();
     data.forEach((element) => {
       let clientHTML = '';
       clientHTML += `<p><strong>Name:</strong> ${element.firstName} ${element.lastName}</p>`;
