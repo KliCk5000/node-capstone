@@ -104,9 +104,17 @@ function displayClientDetailScreen(clientId) {
   showScreenManager('client-details');
   let clientString = '';
   requestGetOneClient(clientId, (clientData) => {
-    Object.entries(clientData).forEach(([key, value]) => {
-      clientString += `<p><strong>${key}:</strong> ${value}</p>`;
+    console.log(clientData);
+    clientString += `
+    <h1>${clientData.firstName} ${clientData.lastName}</h1>
+    <p>${clientData.company}</p>
+    <p>${clientData.phoneNumber}</p>
+    <p>${clientData.email}</p>
+    <p>${clientData.address}</p>`;
+    Object.entries(clientData.notes).forEach((entry) => {
+      clientString += `<p>Note: ${entry}</p>`;
     });
+    clientString += '<input type="button" class="add-client-note" value="Add Note">';
     clientString += '<input type="button" class="update-client-modal" value="update">';
     clientString += '<input type="button" class="return-to-list" value="Go Back to list">';
     $('.client-details').append(`<div class="client-detail-card" data-id="${clientId}">${clientString}</div>`);
