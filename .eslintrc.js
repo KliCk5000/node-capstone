@@ -11,6 +11,13 @@ module.exports = {
   plugins: [],
   rules: {
     'consistent-return': 'off',
+    'no-unused-vars': 'off',
+    'no-undef': 'off',
+    'no-use-before-define': 'off',
+    'no-shadow': 'off',
+    'prefer-promise-reject-errors': 'off',
+    'func-names': 'off',
+    'no-unused-expressions': 'off',
     // 'implicit-arrow-linebreak': ['error', 'beside'],
     // 'arrow-parens': 'always',
     'no-underscore-dangle': ['error', { allow: ['_id'] }],

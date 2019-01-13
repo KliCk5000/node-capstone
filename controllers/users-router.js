@@ -1,4 +1,3 @@
-/* eslint-disable prefer-promise-reject-errors */
 const express = require('express');
 
 const router = express.Router();

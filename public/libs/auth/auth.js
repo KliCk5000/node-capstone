@@ -1,6 +1,3 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable no-undef */
-/* eslint-disable no-use-before-define */
 function checkForAuth() {
   const authToken = localStorage.getItem('authToken');
   if (authToken) {
@@ -55,5 +52,6 @@ function signUpUser(newUser) {
 function logoutUser() {
   localStorage.clear();
   $('.client-list').empty();
+  $('.client-list').off();
   checkForAuth();
 }

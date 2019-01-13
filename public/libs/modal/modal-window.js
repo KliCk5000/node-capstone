@@ -1,4 +1,3 @@
-/* eslint-disable func-names */
 const modal = (function () {
   const $window = $(window);
   const $modal = $('<div class="modal" />');

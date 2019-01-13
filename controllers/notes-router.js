@@ -2,7 +2,7 @@ const express = require('express');
 
 const router = express.Router();
 
-const { Note } = require('../models');
+const { Note } = require('../models/models');
 
 router.get('/:user', (req, res) => {
   res.status(404).json({ message: 'Note GET endpoint not yet implemented' });

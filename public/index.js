@@ -1,7 +1,3 @@
-/* eslint-disable no-shadow */
-/* eslint-disable no-undef */
-/* eslint-disable no-unused-vars */
-/* eslint-disable no-use-before-define */
 function displayLoginScreen() {
   // Display correct screen
   showScreenManager('login');
