@@ -95,23 +95,6 @@ function displayAllClientsScreen() {
   // Display correct screen
   showScreenManager('client-list');
   // Add delete client button event listener
-  $('.client-list').on('click', '.delete-client', (event) => {
-    event.preventDefault();
-    event.stopPropagation();
-    const clientId = $(event.target)
-      .closest('.client')
-      .data('id');
-    requestDeleteClient(clientId);
-  });
-  $('.client-list').on('click', '.client', (event) => {
-    event.preventDefault();
-    event.stopPropagation();
-    const clientId = $(event.target)
-      .closest('.client')
-      .data('id');
-    showScreenManager('client-detail');
-    displayClientDetailScreen(clientId);
-  });
   requestGetAllClients(displayClientList);
 }
 
@@ -126,44 +109,7 @@ function displayClientDetailScreen(clientId) {
     });
     clientString += '<input type="button" class="update-client-modal" value="update">';
     clientString += '<input type="button" class="return-to-list" value="Go Back to list">';
-    $('.client-details').append(clientString);
-    $('.client-details').on('click', '.return-to-list', (event) => {
-      event.preventDefault();
-      event.stopPropagation();
-      showScreenManager('client-list');
-      $('.client-details').empty();
-    });
-    // Add update client button event listener
-    $('.client-details').on('click', '.update-client-modal', (event) => {
-      event.preventDefault();
-      event.stopPropagation();
-      modal.open({ content: 'update', width: 340, height: 300 });
-      requestGetOneClient(clientId, (clientData) => {
-        $('#client-firstName').val(clientData.firstName);
-        $('#client-lastName').val(clientData.lastName);
-        $('#client-company').val(clientData.company);
-        $('#client-address').val(clientData.address);
-        $('#client-phoneNumber').val(clientData.phoneNumber);
-        $('#client-email').val(clientData.email);
-      });
-      // Add event listener to the modal that popped up.
-      $('.client-update-form').submit((e) => {
-        e.preventDefault();
-        e.stopPropagation();
-        const updatedClientInfo = {
-          firstName: $('#client-firstName').val(),
-          lastName: $('#client-lastName').val(),
-          company: $('#client-company').val(),
-          address: $('#client-address').val(),
-          phoneNumber: $('#client-phoneNumber').val(),
-          email: $('#client-email').val(),
-          id: clientId,
-        };
-        requestUpdateClient(clientId, updatedClientInfo);
-        modal.close();
-        displayClientDetailScreen(clientId);
-      });
-    });
+    $('.client-details').append(`<div class="client-detail-card" data-id="${clientId}">${clientString}</div>`);
   });
   // Show client details
 }
@@ -173,7 +119,7 @@ function displayClientList(data) {
     $('.client-list').empty();
     data.forEach((element) => {
       let clientHTML = '';
-      clientHTML += `<p><strong>Name:</strong> ${element.firstName} ${element.lastName}</p>`;
+      clientHTML += `<span><strong>Name:</strong> ${element.firstName} ${element.lastName}</span>`;
       // clientHTML += `<p><strong>Phone:</strong> ${element.phoneNumber}</p>`;
       // clientHTML += `<p><strong>Email:</strong> ${element.email}</p>`;
       clientHTML += '<input type="button" class="delete-client" value="delete">';
@@ -248,46 +194,6 @@ function requestDeleteClient(clientId) {
   }).then(() => requestGetAllClients(displayClientList));
 }
 
-function addEventHandlersToButtons() {
-  $('.user-signup-form').submit((event) => {
-    event.preventDefault();
-    const newUser = {
-      username: $('#signup-user-username').val(),
-      password: $('#signup-user-password').val(),
-      firstName: $('#signup-user-firstName').val(),
-      lastName: $('#signup-user-lastName').val(),
-    };
-    signUpUser(newUser);
-  });
-  $('.user-login-form').submit((event) => {
-    event.preventDefault();
-    const user = {
-      username: $('#login-user-username').val(),
-      password: $('#login-user-password').val(),
-    };
-    loginUser(user);
-  });
-  $('.logoutUser').on('click', () => {
-    logoutUser();
-  });
-  $('.add-client-modal').on('click', () => {
-    modal.open({ content: 'add', width: 340, height: 300 });
-    $('.client-add-form').submit((event) => {
-      event.preventDefault();
-      const newClient = {
-        firstName: $('#client-firstName').val(),
-        lastName: $('#client-lastName').val(),
-        company: $('#client-company').val(),
-        address: $('#client-address').val(),
-        phoneNumber: $('#client-phoneNumber').val(),
-        email: $('#client-email').val(),
-      };
-      requestAddClient(newClient);
-      modal.close();
-    });
-  });
-}
-
 function showScreenManager(screenToShow) {
   // Hide all screens
   $('.user-signup-login').addClass('hidden');
@@ -328,8 +234,114 @@ function showScreenManager(screenToShow) {
   }
 }
 
+function addAllEventHandlers() {
+  $('body').on('submit', '.user-signup-form', (event) => {
+    event.preventDefault();
+    const newUser = {
+      username: $('#signup-user-username').val(),
+      password: $('#signup-user-password').val(),
+      firstName: $('#signup-user-firstName').val(),
+      lastName: $('#signup-user-lastName').val(),
+    };
+    signUpUser(newUser);
+  });
+
+  $('body').on('submit', '.user-login-form', (event) => {
+    event.preventDefault();
+    const user = {
+      username: $('#login-user-username').val(),
+      password: $('#login-user-password').val(),
+    };
+    loginUser(user);
+  });
+
+  $('body').on('click', '.logoutUser', () => {
+    logoutUser();
+  });
+
+  $('body').on('click', '.add-client-modal', () => {
+    modal.open({ content: 'add', width: 340, height: 300 });
+  });
+
+  $('body').on('submit', '.client-add-form', (event) => {
+    event.preventDefault();
+    const newClient = {
+      firstName: $('#client-firstName').val(),
+      lastName: $('#client-lastName').val(),
+      company: $('#client-company').val(),
+      address: $('#client-address').val(),
+      phoneNumber: $('#client-phoneNumber').val(),
+      email: $('#client-email').val(),
+    };
+    requestAddClient(newClient);
+    modal.close();
+  });
+
+  $('body').on('click', '.return-to-list', (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+    showScreenManager('client-list');
+    $('.client-details').empty();
+  });
+
+  // Add update client button event listener
+  $('body').on('click', '.update-client-modal', (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+    const clientId = $(event.target)
+      .closest('.client-detail-card')
+      .data('id');
+    modal.open({ content: 'update', width: 340, height: 300 });
+    requestGetOneClient(clientId, (clientData) => {
+      $('#client-update-submit').attr('data-id', `${clientId}`);
+      $('#client-firstName').val(clientData.firstName);
+      $('#client-lastName').val(clientData.lastName);
+      $('#client-company').val(clientData.company);
+      $('#client-address').val(clientData.address);
+      $('#client-phoneNumber').val(clientData.phoneNumber);
+      $('#client-email').val(clientData.email);
+    });
+  });
+  // Add event listener to the modal that popped up.
+  $('body').on('submit', '.client-update-form', (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+    const clientId = $('#client-update-submit').attr('data-id');
+    const updatedClientInfo = {
+      firstName: $('#client-firstName').val(),
+      lastName: $('#client-lastName').val(),
+      company: $('#client-company').val(),
+      address: $('#client-address').val(),
+      phoneNumber: $('#client-phoneNumber').val(),
+      email: $('#client-email').val(),
+      id: clientId,
+    };
+    requestUpdateClient(clientId, updatedClientInfo);
+    modal.close();
+    displayClientDetailScreen(clientId);
+  });
+
+  $('body').on('click', '.delete-client', (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+    const clientId = $(event.target)
+      .closest('.client')
+      .data('id');
+    requestDeleteClient(clientId);
+  });
+  $('body').on('click', '.client', (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+    const clientId = $(event.target)
+      .closest('.client')
+      .data('id');
+    showScreenManager('client-detail');
+    displayClientDetailScreen(clientId);
+  });
+}
+
 $(() => {
-  addEventHandlersToButtons();
+  addAllEventHandlers();
   checkForAuth();
   // displayAddClientArea();
   // getAndDisplayClients();

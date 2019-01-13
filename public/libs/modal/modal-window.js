@@ -1,5 +1,6 @@
 const modal = (function () {
   const $window = $(window);
+  const $modalOverlay = $('<div class="modal-overlay" />');
   const $modal = $('<div class="modal" />');
   const $content = $('<div class="modal-content"/>');
   const $close = $('<button role="button" class="modal-close">close</button>');
@@ -91,7 +92,7 @@ const modal = (function () {
             Email <input id="client-email" name="client-email" type="text" />
           </label>
           <label for="client-update-submit">
-            <input type="submit" value="Update Client" />
+            <input id="client-update-submit" name="client-update-submit" type="submit" value="Update Client" />
           </label>
         </fieldset>
       </form>`;
@@ -124,6 +125,9 @@ const modal = (function () {
           throw new Error('Didnt supply modal content type');
       }
 
+      $modalOverlay
+        .appendTo('body');
+
       $modal
         .css({
           width: settings.width || 'auto',
@@ -136,6 +140,7 @@ const modal = (function () {
     },
     close() {
       $content.empty();
+      $modalOverlay.detach();
       $modal.detach();
       $(window).off('resize', modal.center);
     },
