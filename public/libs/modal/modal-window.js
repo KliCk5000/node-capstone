@@ -45,6 +45,9 @@ const modal = (function () {
           <label for="client-email">
             Email <input id="client-email" name="client-email" type="text" />
           </label>
+        <label for="client-add-random">
+          <input name="client-add-random" class="client-add-random" type="button" value="Add Random Client Info" />
+        </label>
           <label for="client-add-submit">
             <input type="submit" value="Add Client" />
           </label>

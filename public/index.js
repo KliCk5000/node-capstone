@@ -117,7 +117,9 @@ function displayClientDetailScreen(clientId) {
     clientString += '<input type="button" class="add-client-note" value="Add Note">';
     clientString += '<input type="button" class="update-client-modal" value="update">';
     clientString += '<input type="button" class="return-to-list" value="Go Back to list">';
-    $('.client-details').append(`<div class="client-detail-card" data-id="${clientId}">${clientString}</div>`);
+    $('.client-details').append(
+      `<div class="client-detail-card" data-id="${clientId}">${clientString}</div>`,
+    );
   });
   // Show client details
 }
@@ -345,6 +347,16 @@ function addAllEventHandlers() {
       .data('id');
     showScreenManager('client-detail');
     displayClientDetailScreen(clientId);
+  });
+  $('body').on('click', '.client-add-random', (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+    $('#client-firstName').val(faker.name.firstName);
+    $('#client-lastName').val(faker.name.lastName);
+    $('#client-company').val(faker.company.companyName);
+    $('#client-address').val(faker.address.streetAddress);
+    $('#client-phoneNumber').val(faker.phone.phoneNumber);
+    $('#client-email').val(faker.internet.exampleEmail);
   });
 }
 
