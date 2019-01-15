@@ -102,26 +102,31 @@ function displayClientDetailScreen(clientId) {
   $('.client-details').empty();
   // Display correct screen
   showScreenManager('client-details');
-  let clientString = '';
-  requestGetOneClient(clientId, (clientData) => {
-    console.log(clientData);
-    clientString += `
+  Promise.all([requestGetOneClient(clientId), requestGetAllNotes(clientId)])
+    .then((responseArray) => {
+      const clientData = responseArray[0];
+      const notesData = responseArray[1];
+      const clientDetails = generateClientDetails(clientData, notesData);
+      $('.client-details').append(
+        `<div class="client-detail-card" data-id="${clientId}">${clientDetails}</div>`,
+      );
+    })
+    .catch(error => console.log(error.message));
+}
+
+function generateClientDetails(clientData, notesData) {
+  let clientDetails = '';
+  clientDetails += `
     <h1>${clientData.firstName} ${clientData.lastName}</h1>
     <p>${clientData.company}</p>
     <p>${clientData.phoneNumber}</p>
     <p>${clientData.email}</p>
     <p>${clientData.address}</p>`;
-    Object.entries(clientData.notes).forEach((entry) => {
-      clientString += `<p>Note: ${entry}</p>`;
-    });
-    clientString += '<input type="button" class="add-client-note" value="Add Note">';
-    clientString += '<input type="button" class="update-client-modal" value="update">';
-    clientString += '<input type="button" class="return-to-list" value="Go Back to list">';
-    $('.client-details').append(
-      `<div class="client-detail-card" data-id="${clientId}">${clientString}</div>`,
-    );
-  });
-  // Show client details
+  clientDetails += notesData.map(note => `<p>${note.description} Note: ${note.noteBody}</p>`).join('');
+  clientDetails += '<input type="button" class="add-client-note" value="Add Note">';
+  clientDetails += '<input type="button" class="update-client-modal" value="update">';
+  clientDetails += '<input type="button" class="return-to-list" value="Go Back to list">';
+  return clientDetails;
 }
 
 function displayClientList(data) {
@@ -152,8 +157,8 @@ function requestGetAllClients(callbackFunction) {
     .then(responseJson => callbackFunction(responseJson));
 }
 
-function requestGetOneClient(clientId, callbackFunction) {
-  fetch(`/api/clients/${clientId}`, {
+function requestGetOneClient(clientId) {
+  return fetch(`/api/clients/${clientId}`, {
     headers: {
       Accept: 'application/json',
       'Content-Type': 'application/json',
@@ -161,8 +166,7 @@ function requestGetOneClient(clientId, callbackFunction) {
     },
     method: 'GET',
   })
-    .then(response => response.json())
-    .then(responseJson => callbackFunction(responseJson));
+    .then(response => response.json());
 }
 
 function requestAddClient(newClient) {
@@ -202,6 +206,18 @@ function requestDeleteClient(clientId) {
     },
     method: 'DELETE',
   }).then(() => requestGetAllClients(displayClientList));
+}
+
+function requestGetAllNotes(clientId) {
+  return fetch(`/api/notes/${clientId}`, {
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${localStorage.getItem('authToken')}`,
+    },
+    method: 'GET',
+  })
+    .then(response => response.json());
 }
 
 function showScreenManager(screenToShow) {

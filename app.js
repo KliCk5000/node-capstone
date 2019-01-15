@@ -15,6 +15,7 @@ const app = express();
 // Set up routs
 const User = require('./controllers/users-router');
 const Client = require('./controllers/clients-router');
+const Note = require('./controllers/notes-router');
 const { router: authRouter } = require('./controllers/auth-router');
 const { localStrategy, jwtStrategy } = require('./middlewares/auth-strategies');
 
@@ -28,6 +29,7 @@ app.use(express.static('public'));
 app.use('/api/users', User);
 app.use('/api/auth', authRouter);
 app.use('/api/clients', Client);
+app.use('/api/notes', Note);
 
 const jwtAuth = passport.authenticate('jwt', { session: false });
 

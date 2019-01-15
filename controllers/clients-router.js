@@ -23,6 +23,7 @@ router.get('/', jwtAuth, (req, res) => {
 
 router.get('/:id', jwtAuth, (req, res) => {
   Client.findById(req.params.id)
+    .populate('notes')
     .then((client) => {
       res.json(client);
     })

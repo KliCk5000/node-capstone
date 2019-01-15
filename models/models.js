@@ -16,9 +16,9 @@ const Reminder = mongoose.model('Reminder', ReminderSchema);
 
 // Note Schema
 const NoteSchema = mongoose.Schema({
-  user: { type: mongoose.Schema.Types.ObjectId, ref: 'Client' },
-  name: { type: String, default: '' },
+  client: { type: mongoose.Schema.Types.ObjectId, ref: 'Client' },
   description: { type: String, default: '' },
+  noteBody: { type: String, default: '' },
 });
 
 const Note = mongoose.model('Note', NoteSchema);
@@ -32,7 +32,6 @@ const ClientSchema = mongoose.Schema({
   address: { type: String, default: '' },
   company: { type: String, default: '' },
   email: { type: String, default: '' },
-  notes: [NoteSchema],
   reminders: [ReminderSchema],
 });
 
@@ -67,6 +66,8 @@ UserSchema.methods.validatePassword = function (password) {
 UserSchema.statics.hashPassword = password => bcrypt.hash(password, 10);
 
 const User = mongoose.model('User', UserSchema);
+
+debugger;
 
 module.exports = {
   User,
