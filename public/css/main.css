@@ -66,6 +66,10 @@ form fieldset {
   right: 20px;
 }
 
+.note-card {
+  position: relative;
+}
+
 .client:hover {
   border: 2px solid black;
 }

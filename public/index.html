@@ -20,23 +20,24 @@
   <body>
     <header role="banner" class="app-header"></header>
 
-    <section role="region" class="user-signup-login">
-      <form class="user-login-form"></form>
-      <form class="user-signup-form hidden"></form>
+    <section role="region" class="user-signup-login js-login-screen js-signup-screen">
+      <form class="user-login-form js-login-screen"></form>
+      <form class="user-signup-form js-signup-screen hidden"></form>
     </section>
 
-    <section rolle="region" class="clients-screen hidden">
-      <header role="banner" class="client-list-header">
+    <section rolle="region" class="clients-screen js-clients-screen js-client-details-screen hidden">
+      <header role="banner" class="client-list-header js-clients-screen">
         <h1>List of Clients</h1>
       </header>
 
-      <section role="region" class="client-options">
+      <section role="region" class="client-options js-clients-screen">
         <input type="button" class="logoutUser" value="Log-out" />
         <button role="button" class="add-client-modal">Add new client</button>
       </section>
 
-      <section role="region" class="client-list"></section>
-      <section role="region" class="client-details"></section>
+      <section role="region" class="client-list js-clients-screen"></section>
+
+      <section role="region" class="client-details js-client-details-screen"></section>
     </section>
     <footer role="contentinfo"></footer>
 

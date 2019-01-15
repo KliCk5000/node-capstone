@@ -99,6 +99,33 @@ const modal = (function () {
           </label>
         </fieldset>
       </form>`;
+  const addNoteForm = `
+  <form class="note-add-form">
+  <fieldset>
+    <legend>Add a note</legend>
+    <label for="note-description">
+      Description <span class="required"> (required) </span>
+      <input
+        id="note-description"
+        name="note-description"
+        required=""
+        type="text"
+      />
+    </label>
+    <label for="note-noteBody">
+      Note Body <span class="required"> (required) </span>
+      <input
+        id="note-noteBody"
+        name="note-noteBody"
+        required=""
+        type="text"
+      />
+    </label>
+    <label for="note-add-submit">
+      <input type="submit" id="note-add-submit" value="Add Note" />
+    </label>
+  </fieldset>
+</form>`;
 
   $modal.append($content, $close);
 
@@ -123,6 +150,9 @@ const modal = (function () {
           break;
         case 'update':
           $content.empty().append(updateClientForm);
+          break;
+        case 'add-note':
+          $content.empty().append(addNoteForm);
           break;
         default:
           throw new Error('Didnt supply modal content type');

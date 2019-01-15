@@ -26,6 +26,7 @@ const Note = mongoose.model('Note', NoteSchema);
 // Client Schema
 const ClientSchema = mongoose.Schema({
   user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+  userImg: { type: String, default: '' },
   firstName: { type: String, required: true },
   lastName: { type: String, default: '' },
   phoneNumber: { type: String, default: '' },

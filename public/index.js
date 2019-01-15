@@ -99,7 +99,6 @@ function displayAllClientsScreen() {
 }
 
 function displayClientDetailScreen(clientId) {
-  $('.client-details').empty();
   // Display correct screen
   showScreenManager('client-details');
   Promise.all([requestGetOneClient(clientId), requestGetAllNotes(clientId)])
@@ -107,7 +106,7 @@ function displayClientDetailScreen(clientId) {
       const clientData = responseArray[0];
       const notesData = responseArray[1];
       const clientDetails = generateClientDetails(clientData, notesData);
-      $('.client-details').append(
+      $('.client-details').html(
         `<div class="client-detail-card" data-id="${clientId}">${clientDetails}</div>`,
       );
     })
@@ -116,13 +115,21 @@ function displayClientDetailScreen(clientId) {
 
 function generateClientDetails(clientData, notesData) {
   let clientDetails = '';
+  clientDetails += `<img src="${clientData.userImg}"></br>`;
   clientDetails += `
     <h1>${clientData.firstName} ${clientData.lastName}</h1>
     <p>${clientData.company}</p>
     <p>${clientData.phoneNumber}</p>
     <p>${clientData.email}</p>
     <p>${clientData.address}</p>`;
-  clientDetails += notesData.map(note => `<p>${note.description} Note: ${note.noteBody}</p>`).join('');
+  clientDetails += notesData
+    .map(
+      note => `<div class="note-card" data-id="${note._id}">${note.description} Note: ${
+        note.noteBody
+      }
+    <input type="button" class="delete-note" value="delete"></div>`,
+    )
+    .join('');
   clientDetails += '<input type="button" class="add-client-note" value="Add Note">';
   clientDetails += '<input type="button" class="update-client-modal" value="update">';
   clientDetails += '<input type="button" class="return-to-list" value="Go Back to list">';
@@ -131,16 +138,18 @@ function generateClientDetails(clientData, notesData) {
 
 function displayClientList(data) {
   if (!data.error) {
-    $('.client-list').empty();
+    let clientListHTML = '';
     data.forEach((element) => {
       let clientHTML = '';
+      clientHTML += `<img src="${element.userImg}"></br>`;
       clientHTML += `<span><strong>Name:</strong> ${element.firstName} ${element.lastName}</span>`;
       // clientHTML += `<p><strong>Phone:</strong> ${element.phoneNumber}</p>`;
       // clientHTML += `<p><strong>Email:</strong> ${element.email}</p>`;
       clientHTML += '<input type="button" class="delete-client" value="delete">';
       // clientHTML += '<input type="button" class="update-client-modal" value="update">';
-      $('.client-list').append(`<div class="client" data-id="${element._id}">${clientHTML}</div>`);
+      clientListHTML += `<div class="client" data-id="${element._id}">${clientHTML}</div>`;
     });
+    $('.client-list').html(clientListHTML);
   }
 }
 
@@ -165,8 +174,7 @@ function requestGetOneClient(clientId) {
       Authorization: `Bearer ${localStorage.getItem('authToken')}`,
     },
     method: 'GET',
-  })
-    .then(response => response.json());
+  }).then(response => response.json());
 }
 
 function requestAddClient(newClient) {
@@ -217,42 +225,61 @@ function requestGetAllNotes(clientId) {
     },
     method: 'GET',
   })
-    .then(response => response.json());
+    .then(response => response.json())
+    .catch(error => console.log(error));
+}
+
+function requestAddNote(clientId, newNote) {
+  fetch(`/api/notes/${clientId}`, {
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${localStorage.getItem('authToken')}`,
+    },
+    method: 'POST',
+    body: JSON.stringify(newNote),
+  })
+    .then(response => response.json())
+    .then(responseJson => displayClientDetailScreen(responseJson.client))
+    .catch(error => console.log(error));
+}
+
+function requestDeleteNote(clientId, noteId) {
+  fetch(`/api/notes/${noteId}`, {
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${localStorage.getItem('authToken')}`,
+    },
+    method: 'DELETE',
+  })
+    .then(() => displayClientDetailScreen(clientId))
+    .catch(error => console.log(error));
 }
 
 function showScreenManager(screenToShow) {
   // Hide all screens
-  $('.user-signup-login').addClass('hidden');
-  $('.user-login-form').addClass('hidden');
-  $('.user-signup-form').addClass('hidden');
-  $('.clients-screen').addClass('hidden');
-  $('.client-list-header').addClass('hidden');
-  $('.client-options').addClass('hidden');
-  $('.client-list').addClass('hidden');
-  $('.client-details').addClass('hidden');
+  $('.js-login-screen').addClass('hidden');
+  $('.js-signup-screen').addClass('hidden');
+  $('.js-clients-screen').addClass('hidden');
+  $('.js-client-details-screen').addClass('hidden');
   $('body').removeClass('justified-center');
 
   // Show only requested screens
   switch (screenToShow) {
     case 'login':
-      $('.user-signup-login').removeClass('hidden');
-      $('.user-login-form').removeClass('hidden');
+      $('.js-login-screen').removeClass('hidden');
       $('body').addClass('justified-center');
       break;
     case 'signup':
-      $('.user-signup-login').removeClass('hidden');
-      $('.user-signup-form').removeClass('hidden');
+      $('.js-signup-screen').removeClass('hidden');
       $('body').addClass('justified-center');
       break;
     case 'client-list':
-      $('.clients-screen').removeClass('hidden');
-      $('.client-list-header').removeClass('hidden');
-      $('.client-options').removeClass('hidden');
-      $('.client-list').removeClass('hidden');
+      $('.js-clients-screen').removeClass('hidden');
       break;
     case 'client-details':
-      $('.clients-screen').removeClass('hidden');
-      $('.client-details').removeClass('hidden');
+      $('.js-client-details-screen').removeClass('hidden');
       $('body').addClass('justified-center');
       break;
     default:
@@ -355,6 +382,7 @@ function addAllEventHandlers() {
       .data('id');
     requestDeleteClient(clientId);
   });
+
   $('body').on('click', '.client', (event) => {
     event.preventDefault();
     event.stopPropagation();
@@ -364,6 +392,7 @@ function addAllEventHandlers() {
     showScreenManager('client-detail');
     displayClientDetailScreen(clientId);
   });
+
   $('body').on('click', '.client-add-random', (event) => {
     event.preventDefault();
     event.stopPropagation();
@@ -373,6 +402,40 @@ function addAllEventHandlers() {
     $('#client-address').val(faker.address.streetAddress);
     $('#client-phoneNumber').val(faker.phone.phoneNumber);
     $('#client-email').val(faker.internet.exampleEmail);
+  });
+
+  $('body').on('click', '.add-client-note', (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+    const clientId = $(event.target)
+      .closest('.client-detail-card')
+      .data('id');
+    modal.open({ content: 'add-note', width: 340, height: 300 });
+    $('#note-add-submit').attr('data-id', `${clientId}`);
+  });
+
+  $('body').on('submit', '.note-add-form', (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+    const clientId = $('#note-add-submit').attr('data-id');
+    const newNote = {
+      description: $('#note-description').val(),
+      noteBody: $('#note-noteBody').val(),
+    };
+    requestAddNote(clientId, newNote);
+    modal.close();
+  });
+
+  $('body').on('click', '.delete-note', (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+    const clientId = $(event.target)
+      .closest('.client-detail-card')
+      .data('id');
+    const noteId = $(event.target)
+      .closest('.note-card')
+      .data('id');
+    requestDeleteNote(clientId, noteId);
   });
 }
 

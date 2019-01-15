@@ -61,8 +61,10 @@ router.post('/', jwtAuth, (req, res) => {
       }
       // Get User id from current user
       console.log(currentUser._id);
+      const randomInt = Math.floor(Math.random() * 100);
       Client.create({
         user: currentUser._id,
+        userImg: `https://randomuser.me/api/portraits/men/${randomInt}.jpg`,
         firstName: req.body.firstName,
         lastName: req.body.lastName,
         company: req.body.company,
