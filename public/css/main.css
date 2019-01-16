@@ -21,6 +21,7 @@ body {
 
 form fieldset {
   display: flex;
+  flex-direction: column;
   padding: 20px;
 }
 
@@ -39,7 +40,7 @@ form fieldset {
   width: 100%;
   height: 100%;
   z-index: 50;
-  
+
   background: rgba(0, 0, 0, 0.6);
 }
 
@@ -72,4 +73,14 @@ form fieldset {
 
 .client:hover {
   border: 2px solid black;
+}
+
+.client-img-logo {
+  width: 50px;
+  height: 50px;
+}
+
+.client-detail-card {
+  border: 1px solid black;
+  padding: 20px;
 }

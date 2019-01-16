@@ -23,10 +23,12 @@ const NoteSchema = mongoose.Schema({
 
 const Note = mongoose.model('Note', NoteSchema);
 
+const randomInt = Math.floor(Math.random() * 100);
+
 // Client Schema
 const ClientSchema = mongoose.Schema({
   user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
-  userImg: { type: String, default: '' },
+  userImg: { type: String, default: `https://randomuser.me/api/portraits/men/${randomInt}.jpg` },
   firstName: { type: String, required: true },
   lastName: { type: String, default: '' },
   phoneNumber: { type: String, default: '' },

@@ -115,7 +115,7 @@ function displayClientDetailScreen(clientId) {
 
 function generateClientDetails(clientData, notesData) {
   let clientDetails = '';
-  clientDetails += `<img src="${clientData.userImg}"></br>`;
+  clientDetails += `<img class="client-img-portrait" src="${clientData.userImg}"></br>`;
   clientDetails += `
     <div class="client-name">${clientData.firstName} ${clientData.lastName}</div>
     <div class="client-company">${clientData.company}</div>
@@ -141,7 +141,7 @@ function displayClientList(data) {
     let clientListHTML = '';
     data.forEach((element) => {
       let clientHTML = '';
-      clientHTML += `<img src="${element.userImg}"></br>`;
+      clientHTML += `<img class="client-img-logo" src="${element.userImg}"></br>`;
       clientHTML += `<span><strong>Name:</strong> ${element.firstName} ${element.lastName}</span>`;
       // clientHTML += `<p><strong>Phone:</strong> ${element.phoneNumber}</p>`;
       // clientHTML += `<p><strong>Email:</strong> ${element.email}</p>`;
