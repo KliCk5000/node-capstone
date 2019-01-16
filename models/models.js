@@ -44,11 +44,6 @@ ClientSchema.methods.serialize = () => ({
   phoneNumber: this.phoneNumber,
 });
 
-// ClientSchema.pre('find', (next) => {
-//   this.populate('user');
-//   next();
-// });
-
 const Client = mongoose.model('Client', ClientSchema);
 
 // User Schema

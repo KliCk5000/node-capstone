@@ -10,7 +10,9 @@ const jwtAuth = passport.authenticate('jwt', { session: false });
 
 router.get('/', jwtAuth, (req, res) => {
   User.findOne({ username: req.user.username }).then((currentUserID) => {
-    Client.find({ user: currentUserID._id }).populate('user')
+    Client.find({ user: currentUserID._id })
+      .collation({ locale: 'en', strength: 2 })
+      .sort('lastName')
       .then((clients) => {
         res.json(clients);
       })
@@ -22,8 +24,7 @@ router.get('/', jwtAuth, (req, res) => {
 });
 
 router.get('/:id', jwtAuth, (req, res) => {
-  Client.findById(req.params.id).populate('user')
-    .populate('notes')
+  Client.findById(req.params.id)
     .then((client) => {
       res.json(client);
     })

@@ -124,10 +124,12 @@ function generateClientDetails(clientData, notesData) {
     <div class="client-address">${clientData.address}</div>`;
   clientDetails += notesData
     .map(
-      note => `<div class="note-card" data-id="${note._id}">${note.description} Note: ${
-        note.noteBody
-      }
-    <input type="button" class="delete-note" value="delete"></div>`,
+      note => `<div class="note-card" data-id="${note._id}"><span class="note-description">${
+        note.description
+      }</span> Note: <span class="note-body">${note.noteBody}</span>
+      <input type="button" class="edit-note" value="edit">
+      <input type="button" class="save-note hidden" value="save">
+      <input type="button" class="delete-note" value="delete"></div>`,
     )
     .join('');
   clientDetails += '<input type="button" class="add-client-note" value="Add Note">';
@@ -257,6 +259,20 @@ function requestDeleteNote(clientId, noteId) {
     .catch(error => console.log(error));
 }
 
+function requestUpdateNote(noteId, updatedNote) {
+  fetch(`/api/notes/${noteId}`, {
+    method: 'PUT',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${localStorage.getItem('authToken')}`,
+    },
+    body: JSON.stringify(updatedNote),
+  })
+    .then(response => response.json())
+    .then(responseJson => displayClientDetailScreen(responseJson.client));
+}
+
 function showScreenManager(screenToShow) {
   // Hide all screens
   $('.js-login-screen').addClass('hidden');
@@ -345,7 +361,7 @@ function addAllEventHandlers() {
       .closest('.client-detail-card')
       .data('id');
     modal.open({ content: 'update', width: 340, height: 300 });
-    requestGetOneClient(clientId, (clientData) => {
+    requestGetOneClient(clientId).then((clientData) => {
       $('#client-update-submit').attr('data-id', `${clientId}`);
       $('#client-firstName').val(clientData.firstName);
       $('#client-lastName').val(clientData.lastName);
@@ -436,6 +452,44 @@ function addAllEventHandlers() {
       .closest('.note-card')
       .data('id');
     requestDeleteNote(clientId, noteId);
+  });
+
+  $('body').on('click', '.edit-note', (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+    // note-card
+    const $descriptionElement = $(event.target).siblings('.note-description');
+    const $noteBodyElement = $(event.target).siblings('.note-body');
+    const $descriptionInput = $('<input class="note-description-input" type="text"/>').val(
+      $descriptionElement.text(),
+    );
+    const $bodyInput = $('<input class="note-body-input" type="text"/>').val(
+      $noteBodyElement.text(),
+    );
+    $descriptionElement.replaceWith($descriptionInput);
+    $noteBodyElement.replaceWith($bodyInput);
+    $(event.target)
+      .siblings('.save-note')
+      .removeClass('hidden');
+    $(event.target).addClass('hidden');
+  });
+
+  $('body').on('click', '.save-note', (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+    const noteId = $(event.target)
+      .closest('.note-card')
+      .data('id');
+    const updatedNote = {
+      id: noteId,
+      description: $(event.target)
+        .siblings('.note-description-input')
+        .val(),
+      noteBody: $(event.target)
+        .siblings('.note-body-input')
+        .val(),
+    };
+    requestUpdateNote(noteId, updatedNote);
   });
 }
 

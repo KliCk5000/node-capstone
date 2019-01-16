@@ -10,7 +10,7 @@ const { User } = require('../models/models');
 const jwtAuth = passport.authenticate('jwt', { session: false });
 
 router.get('/:clientId', jwtAuth, (req, res) => {
-  Note.find({ client: req.params.clientId }).populate('client').then(notes => res.json(notes));
+  Note.find({ client: req.params.clientId }).then(notes => res.json(notes));
 });
 
 router.get('/:clientId/:id', jwtAuth, (req, res) => {
@@ -29,7 +29,7 @@ router.post('/:clientId', jwtAuth, (req, res) => {
     }
   });
   // Check to see if client actually exists
-  Client.findById(req.params.clientId).populate('user')
+  Client.findById(req.params.clientId)
     .then((clientFound) => {
       if (!clientFound) {
         const error = 'Client doesn\'t exist';
@@ -41,7 +41,7 @@ router.post('/:clientId', jwtAuth, (req, res) => {
         client: req.params.clientId,
         description: req.body.description,
         noteBody: req.body.noteBody,
-      }).populate('client')
+      })
         .then(note => res.status(201).json({
           _id: note.id,
           client: note.client,
@@ -67,7 +67,25 @@ router.delete('/:id', jwtAuth, (req, res) => {
 });
 
 router.put('/:id', jwtAuth, (req, res) => {
-  res.status(404).json({ message: 'Note PUT endpoint not yet implemented' });
+  // Make sure url ID and body ID are matching
+  if (!(req.params.id && req.body.id && req.params.id === req.body.id)) {
+    return res.status(400).json({ error: 'Request path id and request body id values must match' });
+  }
+  // Make sure the fields match up to 'updateable fields
+  const updated = {};
+  const updateableFields = [
+    'description',
+    'noteBody',
+  ];
+  updateableFields.forEach((field) => {
+    if (field in req.body) {
+      updated[field] = req.body[field];
+    }
+  });
+  // Find by ID and update the note
+  Note.findByIdAndUpdate(req.params.id, { $set: updated }, { new: true })
+    .then(updatedNote => res.status(200).json(updatedNote))
+    .catch(error => res.status(500).json({ message: error }));
 });
 
 module.exports = router;
