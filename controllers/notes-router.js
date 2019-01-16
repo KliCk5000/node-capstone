@@ -10,11 +10,12 @@ const { User } = require('../models/models');
 const jwtAuth = passport.authenticate('jwt', { session: false });
 
 router.get('/:clientId', jwtAuth, (req, res) => {
-  Note.find({ client: req.params.clientId }).then(notes => res.json(notes));
+  Note.find({ client: req.params.clientId }).populate('client').then(notes => res.json(notes));
 });
 
 router.get('/:clientId/:id', jwtAuth, (req, res) => {
-  res.status(404).json({ message: 'Note GET endpoint not yet implemented' });
+  Note.findOne({ client: req.params.clientId, _id: req.params.id })
+    .then(response => res.json(response));
 });
 
 router.post('/:clientId', jwtAuth, (req, res) => {
@@ -28,7 +29,7 @@ router.post('/:clientId', jwtAuth, (req, res) => {
     }
   });
   // Check to see if client actually exists
-  Client.findById(req.params.clientId)
+  Client.findById(req.params.clientId).populate('user')
     .then((clientFound) => {
       if (!clientFound) {
         const error = 'Client doesn\'t exist';
@@ -40,7 +41,7 @@ router.post('/:clientId', jwtAuth, (req, res) => {
         client: req.params.clientId,
         description: req.body.description,
         noteBody: req.body.noteBody,
-      })
+      }).populate('client')
         .then(note => res.status(201).json({
           _id: note.id,
           client: note.client,

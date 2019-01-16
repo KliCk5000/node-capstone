@@ -117,11 +117,11 @@ function generateClientDetails(clientData, notesData) {
   let clientDetails = '';
   clientDetails += `<img src="${clientData.userImg}"></br>`;
   clientDetails += `
-    <h1>${clientData.firstName} ${clientData.lastName}</h1>
-    <p>${clientData.company}</p>
-    <p>${clientData.phoneNumber}</p>
-    <p>${clientData.email}</p>
-    <p>${clientData.address}</p>`;
+    <div class="client-name">${clientData.firstName} ${clientData.lastName}</div>
+    <div class="client-company">${clientData.company}</div>
+    <div class="client-phoneNumber">${clientData.phoneNumber}</div>
+    <div class="client-email">${clientData.email}</div>
+    <div class="client-address">${clientData.address}</div>`;
   clientDetails += notesData
     .map(
       note => `<div class="note-card" data-id="${note._id}">${note.description} Note: ${
