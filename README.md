@@ -14,23 +14,24 @@ A Client Relationship Manager (CRM) where you can keep track of your clients, in
 
 MVP important:
 
-- **View list of my clients**
-- **Create a new client**
-- **Create or setup a reminder to follow up with a client**
-- **Delete a client**
-- **Update client details**
-- **Add notes to client**
+- [x] **View list of my clients**
+- [x] **Create a new client**
+- [x] **Delete a client**
+- [x] **Update client details**
+- [x] **Add notes to client**
+- [x] **Sign up**
+- [x] **Log in**
+- [x] View details of a client
 
 Future features to implement:
 
-- Sign up
-- Log in
-- View details of a client
-- Log calls/interactions with client
-- Reset password
-- See a record of when I contacted client
-- Connect e-mail to log and create e-mails
-- Connect phone to log and call client
+- [ ] **Create or setup a reminder to follow up with a client**
+- [ ] Log calls/interactions with client
+- [ ] Reset password
+- [ ] See a record of when I contacted client
+- [ ] Connect e-mail to log and create e-mails
+- [ ] Connect phone to log and call client
+- [ ] Add ability to add/change user image
 
 ## Client information that I will need:
 
@@ -40,7 +41,7 @@ Future features to implement:
 - Phone Number
 - Email
 - Notes
-- Reminders
+- Reminders (future implementation)
 
 ## Schemas
 
@@ -59,7 +60,7 @@ name,
 description,
 id of user/client/company
 
-Reminders -
+(Future release) Reminders -
 name,
 id of user/client,
 created time,
@@ -69,24 +70,24 @@ time to be sent
 
 MVP Important:
 
-- Landing page to describe what the app is (requirement for project)
-- List or Directory of clients
-- Add client contact, look up pre-existing client or add new client
-- Notes: enter notes
+- [ ] Landing page to describe what the app is (requirement for project)
+- [x] List or Directory of clients
+- [x] Add client contact, look up pre-existing client or add new client
+- [x] Notes: enter notes
+- [x] Sign-up or log-in screen
 
 Future Feature screens:
 
-- Sign-up or log-in screen, and a way to reset password
-- After login, see any alerts for contact reminders
-  Click on their name to go to their record
+- [ ] way to reset password
+- [ ] After login, see any alerts for contact reminders
+- [x]  Click on their name to go to their record
   Possibly click on call/text/email to do the action and automatically create log of communication
-- Once the correct client is found or created, add point of contact (could use the word point in naming of app? - Nevermind, point of contact refers to the person that a client communicates with, not the action of communicating)
-- Choose type: Phone Call/Text/Email/In Person
-- Followup Needed? Yes/No
-- Date/Time for reminder to follow up
-- Recurring reminder?
-- Click to view recent contacts with this client
-  a
+- [ ] Once the correct client is found or created, add point of contact 
+- [ ] Choose type: Phone Call/Text/Email/In Person
+- [ ] Followup Needed? Yes/No
+- [ ] Date/Time for reminder to follow up
+- [ ] Recurring reminder?
+- [ ] Click to view recent contacts with this client
 
 ## User flow
 

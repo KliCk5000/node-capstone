@@ -94,7 +94,6 @@ function displaySignupScreen() {
 function displayAllClientsScreen() {
   // Display correct screen
   showScreenManager('client-list');
-  // Add delete client button event listener
   requestGetAllClients(displayClientList);
 }
 
@@ -496,6 +495,4 @@ function addAllEventHandlers() {
 $(() => {
   addAllEventHandlers();
   checkForAuth();
-  // displayAddClientArea();
-  // getAndDisplayClients();
 });
