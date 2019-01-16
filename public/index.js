@@ -329,7 +329,7 @@ function addAllEventHandlers() {
   });
 
   $('body').on('click', '.add-client-modal', () => {
-    modal.open({ content: 'add', width: 340, height: 300 });
+    modal.open({ content: 'add' });
   });
 
   $('body').on('submit', '.client-add-form', (event) => {
@@ -360,7 +360,7 @@ function addAllEventHandlers() {
     const clientId = $(event.target)
       .closest('.client-detail-card')
       .data('id');
-    modal.open({ content: 'update', width: 340, height: 300 });
+    modal.open({ content: 'update' });
     requestGetOneClient(clientId).then((clientData) => {
       $('#client-update-submit').attr('data-id', `${clientId}`);
       $('#client-firstName').val(clientData.firstName);
@@ -426,7 +426,7 @@ function addAllEventHandlers() {
     const clientId = $(event.target)
       .closest('.client-detail-card')
       .data('id');
-    modal.open({ content: 'add-note', width: 340, height: 300 });
+    modal.open({ content: 'add-note' });
     $('#note-add-submit').attr('data-id', `${clientId}`);
   });
 
