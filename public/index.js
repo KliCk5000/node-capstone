@@ -92,6 +92,9 @@ function displaySignupScreen() {
   }
 }
 function displayAllClientsScreen() {
+  // Change username at the top
+  requestGetUser()
+    .then(user => $('.user-text').text(`${user.firstName} ${user.lastName}`));
   // Display correct screen
   showScreenManager('client-list');
   requestGetAllClients(displayClientList);
@@ -142,7 +145,7 @@ function displayClientList(data) {
     let clientListHTML = '';
     data.forEach((element) => {
       let clientHTML = '';
-      clientHTML += `<img class="client-img-logo" src="${element.userImg}"></br>`;
+      clientHTML += `<div class="client-icon-container ${element.clientColor}"><span class="client-icon-letter">${element.firstName.charAt(0)}</span></div>`;
       clientHTML += `<span><strong>Name:</strong> ${element.firstName} ${element.lastName}</span>`;
       // clientHTML += `<p><strong>Phone:</strong> ${element.phoneNumber}</p>`;
       // clientHTML += `<p><strong>Email:</strong> ${element.email}</p>`;
@@ -152,6 +155,18 @@ function displayClientList(data) {
     });
     $('.client-list').html(clientListHTML);
   }
+}
+
+function requestGetUser() {
+  return fetch('/api/users', {
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${localStorage.getItem('authToken')}`,
+    },
+    method: 'GET',
+  })
+    .then(response => response.json());
 }
 
 function requestGetAllClients(callbackFunction) {
@@ -278,24 +293,27 @@ function showScreenManager(screenToShow) {
   $('.js-signup-screen').addClass('hidden');
   $('.js-clients-screen').addClass('hidden');
   $('.js-client-details-screen').addClass('hidden');
-  $('body').removeClass('justified-center');
+  $('.screen').removeClass('justified-center');
+  $('.user-container').addClass('hidden');
 
   // Show only requested screens
   switch (screenToShow) {
     case 'login':
       $('.js-login-screen').removeClass('hidden');
-      $('body').addClass('justified-center');
+      $('.screen').addClass('justified-center');
       break;
     case 'signup':
       $('.js-signup-screen').removeClass('hidden');
-      $('body').addClass('justified-center');
+      $('.screen').addClass('justified-center');
       break;
     case 'client-list':
+      $('.user-container').removeClass('hidden');
       $('.js-clients-screen').removeClass('hidden');
       break;
     case 'client-details':
+      $('.user-container').removeClass('hidden');
       $('.js-client-details-screen').removeClass('hidden');
-      $('body').addClass('justified-center');
+      $('.screen').addClass('justified-center');
       break;
     default:
       break;
@@ -323,7 +341,8 @@ function addAllEventHandlers() {
     loginUser(user);
   });
 
-  $('body').on('click', '.logoutUser', () => {
+  $('body').on('click', '.user-logout-button', () => {
+    $('.user-text').text('Not logged in');
     logoutUser();
   });
 
@@ -333,6 +352,8 @@ function addAllEventHandlers() {
 
   $('body').on('submit', '.client-add-form', (event) => {
     event.preventDefault();
+    const colorArray = ['yellow', 'green', 'cyan', 'blue', 'purple'];
+    const randomInt = Math.floor(Math.random() * colorArray.length);
     const newClient = {
       firstName: $('#client-firstName').val(),
       lastName: $('#client-lastName').val(),
@@ -340,6 +361,7 @@ function addAllEventHandlers() {
       address: $('#client-address').val(),
       phoneNumber: $('#client-phoneNumber').val(),
       email: $('#client-email').val(),
+      clientColor: colorArray[randomInt],
     };
     requestAddClient(newClient);
     modal.close();

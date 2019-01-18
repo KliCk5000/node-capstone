@@ -1,22 +1,29 @@
+/* COLORS
+	- header background   #ffffff - white
+	- default background  #eaedf1
+	- button background   linear-gradient(to bottom,
+                        rgb(232, 240, 254, 1) 0%,
+                        rgb(216, 231, 255) 100%);
+*/
+
+/* FONTS
+  - logo text           font-family: 'Varela Round', sans-serif;
+	- default body text   font-family: 'Lato', sans-serif;
+	- other text    font-family: 'Roboto', sans-serif;
+*/
+
 * {
-  background-color: beige;
   box-sizing: border-box;
+  font-family: 'Lato', sans-serif;
 }
 
 body {
   min-height: 100vh;
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-}
-
-.hidden {
-  display: none;
 }
 
 .user-signup-login {
   max-width: 50%;
-  top: -10vh;
+  margin-top: -10vh;
 }
 
 form fieldset {
@@ -31,6 +38,24 @@ form fieldset {
 
 .success {
   color: limegreen;
+}
+
+button,
+input[type='button'],
+input[type='submit'] {
+  background: linear-gradient(
+    to bottom,
+    rgb(232, 240, 254, 1) 0%,
+    rgb(216, 231, 255) 100%
+  );
+  color: black;
+  padding: 5px 15px;
+  margin: 5px;
+  display: inline-block;
+  border: 1px solid rgba(0, 0, 0, 0.21);
+  border-bottom: 4px solid rgba(0, 0, 0, 0.21);
+  border-radius: 4px;
+  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.15);
 }
 
 .modal-overlay {
@@ -54,25 +79,95 @@ form fieldset {
   justify-content: center;
 }
 
+/* ===HEADER=== */
+.app-header {
+  background: white;
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 16px;
+}
+
+.logo-container {
+  display: flex;
+  align-items: center;
+}
+/* .logo-image {} */
+.logo-text {
+  font-family: 'Varela Round', sans-serif;
+  font-size: 45px;
+}
+
+.user-container {
+  display: flex;
+  align-items: center;
+}
+/* .user-text {} */
+/* .user-logout-button {} */
+
+/* ===ALL SCREENS=== */
+
+.screen {
+  background: #eaedf1;
+  min-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* ===CLIENTS SCREEN=== */
+
+.clients-screen {
+  min-width: 80vw;
+}
+
 .client {
+  display: flex;
+  align-content: center;
   position: relative;
-  margin: 5px;
-  padding: 20px 100px 20px 20px;
-  border: 1px solid black;
   cursor: pointer;
+  padding: 8px;
+  background: white;
+  box-shadow: 0px 21px 43px -12px rgba(0,0,0,0.75);
+}
+
+.client:hover {
+  background: #f1f2f5;
+}
+
+.client-icon-container {
+  width: 40px;
+  height: 40px;
+  border-radius: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.red {
+  background: #fa5a5a;
+}
+.yellow {
+  background: #f0d264;
+}
+.green {
+  background: #82c8a0;
+}
+.cyan {
+  background: #7fccde;
+}
+.blue {
+  background: #6698cb;
+}
+.purple {
+  background: #cb99c5;
+}
+
+.client-icon-letter {
 }
 
 .delete-client {
   position: absolute;
   right: 20px;
-}
-
-.note-card {
-  position: relative;
-}
-
-.client:hover {
-  border: 2px solid black;
 }
 
 .client-img-logo {
@@ -81,6 +176,19 @@ form fieldset {
 }
 
 .client-detail-card {
-  border: 1px solid black;
+  background: white;
+  border-radius: 12px;
   padding: 20px;
+  box-shadow: 0px 21px 43px -12px rgba(0,0,0,0.75);
+}
+
+.note-card {
+  position: relative;
+}
+.hidden {
+  display: none;
+}
+
+form {
+  background: white;
 }

@@ -9,6 +9,16 @@
       rel="stylesheet"
       type="text/css"
       media="screen"
+      href="./css/normalize.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css?family=Varela+Round|Lato|Roboto"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      media="screen"
       href="./css/main.css"
     />
     <meta
@@ -18,27 +28,52 @@
   </head>
 
   <body>
-    <header role="banner" class="app-header"></header>
+    <header role="banner" class="app-header">
+      <div class="logo-container">
+        <img class="logo-image" src="img/icons8-contacts.svg" />
+        <span class="logo-text">Client-a-roo</span>
+      </div>
 
-    <section role="region" class="user-signup-login js-login-screen js-signup-screen">
-      <form class="user-login-form js-login-screen"></form>
-      <form class="user-signup-form js-signup-screen hidden"></form>
-    </section>
+      <div class="user-container hidden">
+        <span class="user-text">Not logged in</span>
+        <input type="button" class="user-logout-button" value="Log-out" />
+      </div>
+    </header>
 
-    <section rolle="region" class="clients-screen js-clients-screen js-client-details-screen hidden">
-      <header role="banner" class="client-list-header js-clients-screen">
-        <h1>List of Clients</h1>
-      </header>
-
-      <section role="region" class="client-options js-clients-screen">
-        <input type="button" class="logoutUser" value="Log-out" />
-        <button role="button" class="add-client-modal">Add new client</button>
+    <section role="region" class="screen">
+      <!-- Signup and Login Screen -->
+      <section
+        role="region"
+        class="user-signup-login js-login-screen js-signup-screen"
+      >
+        <form class="user-login-form js-login-screen"></form>
+        <form class="user-signup-form js-signup-screen hidden"></form>
       </section>
 
-      <section role="region" class="client-list js-clients-screen"></section>
+      <!-- User's main client list screen or 'dashboard'-->
+      <section
+        role="region"
+        class="clients-screen js-clients-screen js-client-details-screen hidden"
+      >
+        <header role="banner" class="client-list-header js-clients-screen">
+          <h1>List of Clients</h1>
+        </header>
+        <!--section to add client and logout buttons -->
+        <section role="region" class="client-options js-clients-screen">
+          <button role="button" class="add-client-modal">Add new client</button>
+        </section>
 
-      <section role="region" class="client-details js-client-details-screen"></section>
+        <!-- this screen shows list of all clients -->
+        <section role="region" class="client-list js-clients-screen"></section>
+
+        <!-- this screen shows just the single client details -->
+        <section
+          role="region"
+          class="client-details js-client-details-screen"
+        ></section>
+      </section>
     </section>
+
     <footer role="contentinfo"></footer>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>

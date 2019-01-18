@@ -29,6 +29,7 @@ const randomInt = Math.floor(Math.random() * 100);
 const ClientSchema = mongoose.Schema({
   user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
   userImg: { type: String, default: `https://randomuser.me/api/portraits/men/${randomInt}.jpg` },
+  clientColor: { type: String, default: 'red' },
   firstName: { type: String, required: true },
   lastName: { type: String, default: '' },
   phoneNumber: { type: String, default: '' },

@@ -12,7 +12,7 @@ router.get('/', jwtAuth, (req, res) => {
   User.findOne({ username: req.user.username }).then((currentUserID) => {
     Client.find({ user: currentUserID._id })
       .collation({ locale: 'en', strength: 2 })
-      .sort('lastName')
+      .sort('firstName')
       .then((clients) => {
         res.json(clients);
       })
@@ -72,6 +72,7 @@ router.post('/', jwtAuth, (req, res) => {
         address: req.body.address,
         phoneNumber: req.body.phoneNumber,
         email: req.body.email,
+        clientColor: req.body.clientColor,
       })
         // Create the client
         .then(client => res.status(201).json({

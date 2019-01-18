@@ -18,13 +18,16 @@ function loginUser(user) {
       if (response.ok) {
         return response.json();
       }
-      throw new Error(response);
+      if (response.statusText === 'Unauthorized') {
+        $('.login-error').text('Invalid username or password');
+        throw new Error('Invalid username or password');
+      }
     })
     .then((responseJson) => {
       localStorage.setItem('authToken', responseJson.authToken);
       displayAllClientsScreen();
     })
-    .catch(error => $('.login-error').text(`${error}`));
+    .catch(error => console.error(error));
 }
 
 function signUpUser(newUser) {
@@ -35,16 +38,18 @@ function signUpUser(newUser) {
   })
     .then((response) => {
       if (response.ok) {
-        return response.json();
+        $('.login-success').text('Sign-up successful! Please Log in');
+        displayLoginScreen();
       }
-      throw new Error(response.statusText);
+      return response.json();
     })
     .then((responseJson) => {
-      $('.login-success').text('Sign-up successful! Please Log in');
-      displayLoginScreen();
+      if (responseJson.type === 'error') {
+        throw new Error(`${responseJson.reason} - ${responseJson.message} for ${responseJson.location}.`);
+      }
     })
     .catch((error) => {
-      console.log(error);
+      console.error(error);
       $('.signup-error').text(`${error}`);
     });
 }

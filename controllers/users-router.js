@@ -1,8 +1,16 @@
 const express = require('express');
+const passport = require('passport');
 
 const router = express.Router();
 
 const { User } = require('../models/models');
+
+const jwtAuth = passport.authenticate('jwt', { session: false });
+
+router.get('/', jwtAuth, (req, res) => {
+  User.findOne({ username: req.user.username })
+    .then(response => res.json(response.serialize()));
+});
 
 // Post this endpoint to register a new user
 router.post('/', (req, res) => {
@@ -11,6 +19,7 @@ router.post('/', (req, res) => {
 
   if (missingField) {
     return res.status(422).json({
+      type: 'error',
       code: 422,
       reason: 'ValidationError',
       message: 'Missing field',
@@ -25,6 +34,7 @@ router.post('/', (req, res) => {
 
   if (nonStringField) {
     return res.status(422).json({
+      type: 'error',
       code: 422,
       reason: 'ValidationError',
       message: 'Incorrect field type: expected string',
@@ -39,6 +49,7 @@ router.post('/', (req, res) => {
 
   if (nonTrimmedField) {
     return res.status(422).json({
+      type: 'error',
       code: 422,
       reason: 'ValidationError',
       message: 'Cannot start or end with whitespace',
@@ -59,6 +70,7 @@ router.post('/', (req, res) => {
 
   if (tooSmallField || tooLargeField) {
     return res.status(422).json({
+      type: 'error',
       code: 422,
       reason: 'ValidationError',
       message: tooSmallField
