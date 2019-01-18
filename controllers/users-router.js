@@ -91,6 +91,7 @@ router.post('/', (req, res) => {
       if (count > 0) {
         // There is an existing user with the same username
         return Promise.reject({
+          type: 'error',
           code: 422,
           reason: 'ValidationError',
           message: 'Username already taken',
