@@ -146,7 +146,7 @@ function displayClientList(data) {
     data.forEach((element) => {
       let clientHTML = '';
       clientHTML += `<div class="client-icon-container ${element.clientColor}"><span class="client-icon-letter">${element.firstName.charAt(0)}</span></div>`;
-      clientHTML += `<span><strong>Name:</strong> ${element.firstName} ${element.lastName}</span>`;
+      clientHTML += `<span class="client-list-name">${element.firstName} ${element.lastName}</span>`;
       // clientHTML += `<p><strong>Phone:</strong> ${element.phoneNumber}</p>`;
       // clientHTML += `<p><strong>Email:</strong> ${element.email}</p>`;
       clientHTML += '<input type="button" class="delete-client" value="delete">';
