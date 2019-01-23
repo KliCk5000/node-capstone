@@ -176,7 +176,7 @@ function generateClientDetails(clientData, notesData) {
     .join('');
   clientDetails += '</div>';
   clientDetails += '<input type="button" class="add-client-note" value="Add Note">';
-  clientDetails += '<input type="button" class="update-client-modal" value="update">';
+  clientDetails += '<input type="button" class="update-client-modal" value="Update">';
   clientDetails += '<input type="button" class="return-to-list" value="Go Back to list">';
   return clientDetails;
 }
@@ -186,16 +186,11 @@ function displayClientList(data) {
     let clientListHTML = '';
     data.forEach((element) => {
       let clientHTML = '';
-      clientHTML += `<div class="client-icon-container ${
-        element.clientColor
-      }"><span class="client-icon-letter">${element.firstName.charAt(0)}</span></div>`;
-      clientHTML += `<span class="client-list-name">${element.firstName} ${
-        element.lastName
-      }</span>`;
-      // clientHTML += `<p><strong>Phone:</strong> ${element.phoneNumber}</p>`;
-      // clientHTML += `<p><strong>Email:</strong> ${element.email}</p>`;
+      clientHTML += `<div class="client-icon-container ${element.clientColor}">
+      <span class="client-icon-letter">${element.firstName.charAt(0)}</span></div>`;
+      clientHTML += `<span class="client-list-name">
+        ${element.firstName} ${element.lastName}</span>`;
       clientHTML += '<input type="button" class="fas fa-trash delete-client" value="&#xf2ed">';
-      // clientHTML += '<input type="button" class="update-client-modal" value="update">';
       clientListHTML += `<div class="client" data-id="${element._id}">${clientHTML}</div>`;
     });
     $('.client-list').html(clientListHTML);
