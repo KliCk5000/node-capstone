@@ -8,20 +8,26 @@ function displayLoginScreen() {
     <legend>Log in</legend>
     <div class='login-error error'></div>
     <div class='login-success success'></div>
-    <label for="login-user-username">Username</label>
-    <input
-      type="text"
-      name="login-user-username"
-      id="login-user-username"
-      required
-    />
-    <label for="login-user-password">Password</label>
-    <input
-      type="password"
-      name="login-user-password"
-      id="login-user-password"
-      required
-    />
+    <div class="form-questions">
+      <div class="login-form-row">
+        <label for="login-user-username">Username</label>
+        <input
+          type="text"
+          name="login-user-username"
+          id="login-user-username"
+          required
+        />
+        </div>
+        <div class="login-form-row">
+        <label for="login-user-password">Password</label>
+        <input
+          type="password"
+          name="login-user-password"
+          id="login-user-password"
+          required
+        />
+      </div>
+    </div>
     <button type="submit">Log in</button>
     <button class="switch-to-signup-button" type="button">
       Sign up instead
@@ -48,34 +54,44 @@ function displaySignupScreen() {
         <fieldset>
           <legend>Sign up</legend>
           <div class='signup-error error'></div>
-          <label for="user-signup-username">Username</label>
-          <input
-            type="text"
-            name="signup-user-username"
-            id="signup-user-username"
-            required
-          />
-          <label for="signup-user-password">Password</label>
-          <input
-            type="password"
-            name="signup-user-password"
-            id="signup-user-password"
-            pattern=".{10,72}"
-            title="Password must be at least 10 characters, up to a maximum of 72."
-            required
-          />
-          <label for="signup-user-firstName">First Name</label>
-          <input
-            type="text"
-            name="signup-user-firstName"
-            id="signup-user-firstName"
-          />
-          <label for="signup-user-lastName">Last Name</label>
-          <input
-            type="text"
-            name="signup-user-lastName"
-            id="signup-user-lastName"
-          />
+          <div class="form-questions">
+            <div class="login-form-row">
+              <label for="user-signup-username">Username</label>
+              <input
+                type="text"
+                name="signup-user-username"
+                id="signup-user-username"
+                required
+              />
+            </div>
+            <div class="login-form-row">
+              <label for="signup-user-password">Password</label>
+              <input
+                type="password"
+                name="signup-user-password"
+                id="signup-user-password"
+                pattern=".{10,72}"
+                title="Password must be at least 10 characters, up to a maximum of 72."
+                required
+              />
+            </div>
+            <div class="login-form-row">
+              <label for="signup-user-firstName">First Name</label>
+              <input
+                type="text"
+                name="signup-user-firstName"
+                id="signup-user-firstName"
+              />
+            </div>
+            <div class="login-form-row">
+              <label for="signup-user-lastName">Last Name</label>
+              <input
+                type="text"
+                name="signup-user-lastName"
+                id="signup-user-lastName"
+              />
+            </div>
+          </div>
           <button type="submit">Sign up</button>
           <button class="switch-to-login-button" type="button">
             Log in instead
@@ -93,8 +109,7 @@ function displaySignupScreen() {
 }
 function displayAllClientsScreen() {
   // Change username at the top
-  requestGetUser()
-    .then(user => $('.user-text').text(`${user.firstName} ${user.lastName}`));
+  requestGetUser().then(user => $('.user-text').text(`${user.firstName} ${user.lastName}`));
   // Display correct screen
   showScreenManager('client-list');
   requestGetAllClients(displayClientList);
@@ -117,23 +132,49 @@ function displayClientDetailScreen(clientId) {
 
 function generateClientDetails(clientData, notesData) {
   let clientDetails = '';
-  clientDetails += `<img class="client-img-portrait" src="${clientData.userImg}"></br>`;
   clientDetails += `
-    <div class="client-name">${clientData.firstName} ${clientData.lastName}</div>
-    <div class="client-company">${clientData.company}</div>
-    <div class="client-phoneNumber">${clientData.phoneNumber}</div>
-    <div class="client-email">${clientData.email}</div>
-    <div class="client-address">${clientData.address}</div>`;
+  <div class="client-detail-top">
+    <div class="client-image-container">
+      <img class="client-img-portrait" src="${clientData.userImg}">
+    </div>
+    <div class="client-detail-container">
+      <div class="client-name client-detail-row">
+        <i class="fas fa-font"></i>
+        ${clientData.firstName} ${clientData.lastName}</div>
+      <div class="client-company client-detail-row">
+        <i class="fas fa-building"></i>
+        ${clientData.company}</div>
+      <div class="client-phoneNumber client-detail-row">
+        <i class="fas fa-phone"></i>
+        ${clientData.phoneNumber}</div>
+      <div class="client-email client-detail-row">
+        <i class="fas fa-envelope"></i>
+        ${clientData.email}</div>
+      <div class="client-address client-detail-row">
+        <i class="fas fa-map-marker"></i>
+        ${clientData.address}</div>
+    </div>
+  </div>
+    <div class="client-notes">
+      <div class="client-notes-header">Notes:</div>
+  `;
   clientDetails += notesData
     .map(
-      note => `<div class="note-card" data-id="${note._id}"><span class="note-description">${
-        note.description
-      }</span> Note: <span class="note-body">${note.noteBody}</span>
-      <input type="button" class="edit-note" value="edit">
-      <input type="button" class="save-note hidden" value="save">
-      <input type="button" class="delete-note" value="delete"></div>`,
+      note => `
+    <div class="note-card" data-id="${note._id}">
+      <div class="note-fields">
+        <span class="note-description">${note.description}</span>
+        Note: <span class="note-body">${note.noteBody}</span>
+      </div>
+      <div class="note-buttons">
+        <input type="button" class="edit-note" value="edit">
+        <input type="button" class="save-note hidden" value="save">
+        <input type="button" class="fas fa-trash delete-note" value="&#xf2ed">
+      </div>
+    </div>`,
     )
     .join('');
+  clientDetails += '</div>';
   clientDetails += '<input type="button" class="add-client-note" value="Add Note">';
   clientDetails += '<input type="button" class="update-client-modal" value="update">';
   clientDetails += '<input type="button" class="return-to-list" value="Go Back to list">';
@@ -145,11 +186,15 @@ function displayClientList(data) {
     let clientListHTML = '';
     data.forEach((element) => {
       let clientHTML = '';
-      clientHTML += `<div class="client-icon-container ${element.clientColor}"><span class="client-icon-letter">${element.firstName.charAt(0)}</span></div>`;
-      clientHTML += `<span class="client-list-name">${element.firstName} ${element.lastName}</span>`;
+      clientHTML += `<div class="client-icon-container ${
+        element.clientColor
+      }"><span class="client-icon-letter">${element.firstName.charAt(0)}</span></div>`;
+      clientHTML += `<span class="client-list-name">${element.firstName} ${
+        element.lastName
+      }</span>`;
       // clientHTML += `<p><strong>Phone:</strong> ${element.phoneNumber}</p>`;
       // clientHTML += `<p><strong>Email:</strong> ${element.email}</p>`;
-      clientHTML += '<input type="button" class="delete-client" value="delete">';
+      clientHTML += '<input type="button" class="fas fa-trash delete-client" value="&#xf2ed">';
       // clientHTML += '<input type="button" class="update-client-modal" value="update">';
       clientListHTML += `<div class="client" data-id="${element._id}">${clientHTML}</div>`;
     });
@@ -165,8 +210,7 @@ function requestGetUser() {
       Authorization: `Bearer ${localStorage.getItem('authToken')}`,
     },
     method: 'GET',
-  })
-    .then(response => response.json());
+  }).then(response => response.json());
 }
 
 function requestGetAllClients(callbackFunction) {
@@ -479,8 +523,14 @@ function addAllEventHandlers() {
     event.preventDefault();
     event.stopPropagation();
     // note-card
-    const $descriptionElement = $(event.target).siblings('.note-description');
-    const $noteBodyElement = $(event.target).siblings('.note-body');
+    const $descriptionElement = $(event.target)
+      .parent()
+      .siblings()
+      .find('.note-description');
+    const $noteBodyElement = $(event.target)
+      .parent()
+      .siblings()
+      .find('.note-body');
     const $descriptionInput = $('<input class="note-description-input" type="text"/>').val(
       $descriptionElement.text(),
     );
@@ -504,13 +554,21 @@ function addAllEventHandlers() {
     const updatedNote = {
       id: noteId,
       description: $(event.target)
-        .siblings('.note-description-input')
+        .parent()
+        .siblings()
+        .find('.note-description-input')
         .val(),
       noteBody: $(event.target)
-        .siblings('.note-body-input')
+        .parent()
+        .siblings()
+        .find('.note-body-input')
         .val(),
     };
     requestUpdateNote(noteId, updatedNote);
+    $(event.target)
+      .siblings('.edit-note')
+      .removeClass('hidden');
+    $(event.target).addClass('hidden');
   });
 }
 

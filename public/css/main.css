@@ -21,15 +21,54 @@ body {
   min-height: 100vh;
 }
 
+h1 {
+  margin: 0;
+}
+
 .user-signup-login {
-  max-width: 50%;
   margin-top: -10vh;
+  border-radius: 15px;
+  background-color: white;
+  box-shadow: 0px 21px 43px -12px rgba(0, 0, 0, 0.75);
+}
+
+form {
+  padding-top: 10px;
 }
 
 form fieldset {
+  padding: 10px;
+  border: none;
+}
+
+.form-row {
+  display: flex;
+  align-items: flex-end;
+  flex-direction: column;
+  flex-wrap: wrap;
+}
+
+.login-form-row {
   display: flex;
   flex-direction: column;
-  padding: 20px;
+  flex-wrap: wrap;
+}
+
+.form-row input{
+  margin-bottom: 5px;
+}
+
+.form-questions {
+  border-top: 1px solid rgba(0, 0, 0, 0.12);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+  padding: 10px 0;
+  display: flex;
+  flex-direction: column;
+}
+
+legend {
+  text-align: center;
+  font-weight: bold;
 }
 
 .error {
@@ -56,6 +95,7 @@ input[type='submit'] {
   border-bottom: 4px solid rgba(0, 0, 0, 0.21);
   border-radius: 4px;
   text-shadow: 0 1px 0 rgba(0, 0, 0, 0.15);
+  cursor: pointer;
 }
 
 .modal-overlay {
@@ -70,9 +110,34 @@ input[type='submit'] {
 }
 
 .modal {
-  position: absolute;
+  background-color: white;
+  max-height: calc(100% - 100px);
+  position: fixed;
+  top: 50%;
+  right: auto;
+  bottom: auto;
+  left: 50%;
+  transform: translate(-50%, -50%);
   z-index: 1000;
-  background-color: grey;
+  border-radius: 10px;
+  box-shadow: 0px 21px 43px -12px rgba(0, 0, 0, 0.75);
+  width: 100vw;
+}
+
+.modal-content {
+  height: 100%;
+  overflow: auto;
+  /* width: 100vw; */
+}
+
+.modal-close {
+  float: right;
+}
+
+.add-client-image {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .justified-center {
@@ -83,7 +148,8 @@ input[type='submit'] {
 .app-header {
   background: white;
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
+  align-items: center;
   padding: 8px 16px;
 }
 
@@ -94,7 +160,7 @@ input[type='submit'] {
 /* .logo-image {} */
 .logo-text {
   font-family: 'Varela Round', sans-serif;
-  font-size: 45px;
+  font-size: 39px;
 }
 
 .user-container {
@@ -117,7 +183,7 @@ input[type='submit'] {
 /* ===CLIENTS SCREEN=== */
 
 .clients-screen {
-  min-width: 80vw;
+  width: 100%;
 }
 
 .client {
@@ -127,11 +193,25 @@ input[type='submit'] {
   cursor: pointer;
   padding: 8px;
   background: white;
-  box-shadow: 0px 21px 43px -12px rgba(0,0,0,0.75);
+  box-shadow: 0px 21px 43px -12px rgba(0, 0, 0, 0.75);
+  justify-content: space-between;
 }
 
 .client:hover {
   background: #f1f2f5;
+}
+
+.client-list {
+  min-width: 90vw;
+}
+
+.client-list-header {
+  text-align: center;
+  margin-top: 10px;
+}
+
+.client-options {
+  text-align: center;
 }
 
 .client-icon-container {
@@ -170,8 +250,18 @@ input[type='submit'] {
 }
 
 .delete-client {
-  position: absolute;
-  right: 20px;
+}
+
+.delete-client,
+.delete-note {
+}
+.delete-client:hover,
+.delete-note:hover {
+  color: darkred;
+}
+
+.client-image-container {
+  display: inline-block;
 }
 
 .client-img-logo {
@@ -179,20 +269,99 @@ input[type='submit'] {
   height: 50px;
 }
 
+.client-detail-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.client-detail-container {
+  display: inline-block;
+}
+
+.client-detail-container i {
+  margin-right: 10px;
+}
+
 .client-detail-card {
+  display: flex;
+  flex-direction: column;
   background: white;
   border-radius: 12px;
   padding: 20px;
-  box-shadow: 0px 21px 43px -12px rgba(0,0,0,0.75);
+  box-shadow: 0px 21px 43px -12px rgba(0, 0, 0, 0.75);
+}
+
+.client-detail-row {
+  margin-bottom: 5px;
 }
 
 .note-card {
   position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
 }
+
+.client-notes {
+
+}
+
+.client-notes-header {
+  text-align: center;
+  font-weight: bold;
+}
+
+.update-client-image {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
 .hidden {
-  display: none;
+  display: none !important;
 }
 
 form {
-  background: white;
+}
+
+/* Small devices (portrait tablets and large phones, 600px and up) */
+@media only screen and (min-width: 600px) {
+  .app-header {
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 8px 16px;
+  }
+
+  .logo-text {
+    font-size: 45px;
+  }
+
+  .clients-screen {
+    width: auto;
+  }
+
+  .modal {
+    width: auto;
+  }
+
+  .form-row {
+    flex-direction: row;
+    align-items: flex-start; /* To avoid stretching */
+  }
+}
+
+/* Medium devices (landscape tablets, 768px and up) */
+@media only screen and (min-width: 768px) {
+}
+
+/* Large devices (laptops/desktops, 992px and up) */
+@media only screen and (min-width: 992px) {
+}
+
+/* Extra large devices (large laptops and desktops, 1200px and up) */
+@media only screen and (min-width: 1200px) {
 }
