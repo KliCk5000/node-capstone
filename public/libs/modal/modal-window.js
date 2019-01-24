@@ -8,7 +8,7 @@ const modal = (function () {
   <form class="client-add-form">
         <fieldset>
           <legend>Add a client</legend>
-          <img class="add-client-image" src="img/icons8-user-male.svg" />
+          <img class="add-client-image" alt="Add Client Icon" src="img/icons8-user-male.svg" />
           <div class="form-questions">
             <div class="form-row">  
               <label for="client-firstName">
@@ -70,7 +70,7 @@ const modal = (function () {
   <form class="client-update-form">
         <fieldset>
           <legend>Update client</legend>
-          <img class="update-client-image" src="img/icons8-synchronize.svg" />
+          <img class="update-client-image" alt="Update Client Logo" src="img/icons8-synchronize.svg" />
           <div class="form-questions">
           <div class="form-row">
             <label for="client-firstName">
