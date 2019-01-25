@@ -70,8 +70,8 @@ function displaySignupScreen() {
                 type="password"
                 name="signup-user-password"
                 id="signup-user-password"
-                pattern=".{10,72}"
-                title="Password must be at least 10 characters, up to a maximum of 72."
+                pattern=".{6,72}"
+                title="Password must be at least 6 characters, up to a maximum of 72."
                 required
               />
             </div>
