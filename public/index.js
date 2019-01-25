@@ -176,9 +176,11 @@ function generateClientDetails(clientData, notesData) {
     )
     .join('');
   clientDetails += '</div>';
+  clientDetails += '<div class="client-detail-buttons">';
   clientDetails += '<input type="button" class="add-client-note" value="Add Note">';
   clientDetails += '<input type="button" class="update-client-modal" value="Update">';
   clientDetails += '<input type="button" class="return-to-list" value="Go Back to list">';
+  clientDetails += '</div>';
   return clientDetails;
 }
 
