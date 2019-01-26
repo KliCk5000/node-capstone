@@ -4,15 +4,14 @@ const mongoose = require('mongoose');
 
 const { app, runServer, closeServer } = require('../../app');
 const { TEST_PORT, TEST_DATABASE_URL } = require('../../config');
-const { User } = require('../../models/models');
 
 const { expect } = chai;
 
 chai.use(chaiHttp);
 
 // this function deletes the entire database.
-// we'll call it in an `afterEach` block below
-// to ensure  ata from one test does not stick
+// we'll call it in an `after` block below
+// to ensure data from one test does not stick
 // around for next one
 function tearDownDb() {
   return new Promise((resolve, reject) => {
@@ -24,16 +23,11 @@ function tearDownDb() {
 }
 
 describe('Client-a-roo server Auth endpoint tests', () => {
-  before(() => {
-    runServer(TEST_DATABASE_URL, TEST_PORT);
-  });
+  before(() => runServer(TEST_DATABASE_URL, TEST_PORT));
 
   // afterEach(() => tearDownDb());
 
-  after(() => {
-    tearDownDb();
-    closeServer();
-  });
+  after(() => tearDownDb().then(() => closeServer()));
 
   describe('Creating User', () => {
     const requiredFields = ['username', 'password'];
@@ -120,7 +114,6 @@ describe('Client-a-roo server Auth endpoint tests', () => {
       .post('/api/users/')
       .send(body)
       .then((res) => {
-        console.log(res.body);
         expect(res).to.have.status(201);
         expect(res.body).to.have.property('username').equal(body.username);
       }));

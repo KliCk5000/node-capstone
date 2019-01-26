@@ -9,13 +9,9 @@ const { expect } = chai;
 chai.use(chaiHttp);
 
 describe('Client-a-roo Server Tests', () => {
-  before(() => {
-    runServer(TEST_DATABASE_URL, TEST_PORT);
-  });
+  before(() => runServer(TEST_DATABASE_URL, TEST_PORT));
 
-  after(() => {
-    closeServer();
-  });
+  after(() => closeServer());
 
   describe('generic "/" get request to index.html', () => {
     it('should return 200 status', () => chai
