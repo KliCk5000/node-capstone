@@ -1,5 +1,6 @@
 const chai = require('chai');
 const chaiHttp = require('chai-http');
+const mongoose = require('mongoose');
 
 const { app, runServer, closeServer } = require('../../app');
 const { TEST_PORT, TEST_DATABASE_URL } = require('../../config');
@@ -9,13 +10,28 @@ const { expect } = chai;
 
 chai.use(chaiHttp);
 
+// this function deletes the entire database.
+// we'll call it in an `afterEach` block below
+// to ensure  ata from one test does not stick
+// around for next one
+function tearDownDb() {
+  return new Promise((resolve, reject) => {
+    console.warn('Deleting database');
+    mongoose.connection.dropDatabase()
+      .then(result => resolve(result))
+      .catch(err => reject(err));
+  });
+}
+
 describe('Client-a-roo server Auth endpoint tests', () => {
   before(() => {
     runServer(TEST_DATABASE_URL, TEST_PORT);
-    User.deleteMany();
   });
 
+  // afterEach(() => tearDownDb());
+
   after(() => {
+    tearDownDb();
     closeServer();
   });
 
@@ -57,7 +73,7 @@ describe('Client-a-roo server Auth endpoint tests', () => {
       const testingBody = {};
       Object.assign(testingBody, body);
       testingBody[field] = 9000;
-      it(`Missing a ${field} should return ValidationError: Incorrect Type - not String in ${field}`, () => chai
+      it(`Non String ${field} should return ValidationError: Incorrect Type - not String in ${field}`, () => chai
         .request(app)
         .post('/api/users/')
         .send(testingBody)
@@ -80,7 +96,7 @@ describe('Client-a-roo server Auth endpoint tests', () => {
       const testingBody = {};
       Object.assign(testingBody, body);
       testingBody[field] += '   ';
-      it(`Missing a ${field} should return ValidationError: Cannot start or end with whitespace in ${field}`, () => chai
+      it(`Trailing whitespace in ${field} should return ValidationError: Cannot start or end with whitespace in ${field}`, () => chai
         .request(app)
         .post('/api/users/')
         .send(testingBody)
@@ -99,6 +115,14 @@ describe('Client-a-roo server Auth endpoint tests', () => {
         }));
     });
 
-
+    it('Creating a user with all correct fields should pass', () => chai
+      .request(app)
+      .post('/api/users/')
+      .send(body)
+      .then((res) => {
+        console.log(res.body);
+        expect(res).to.have.status(201);
+        expect(res.body).to.have.property('username').equal(body.username);
+      }));
   });
 });
