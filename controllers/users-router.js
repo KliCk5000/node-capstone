@@ -9,7 +9,7 @@ const jwtAuth = passport.authenticate('jwt', { session: false });
 
 router.get('/', jwtAuth, (req, res) => {
   User.findOne({ username: req.user.username })
-    .then(response => res.json(response.serialize()));
+    .then(response => res.json(response));
 });
 
 // Post this endpoint to register a new user
