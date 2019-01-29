@@ -15,7 +15,7 @@ const testUser = { username: 'Chai', password: 'mochamocha' };
 
 chai.use(chaiHttp);
 
-// this function deletes the entire database.
+// this function deletes the entire test database.
 function tearDownOldDb() {
   return new Promise((resolve, reject) => {
     console.warn('Deleting any previous database');
@@ -80,7 +80,7 @@ function setAuthToken(token) {
   return true;
 }
 
-describe('Client-a-roo server Client endpoint tests', () => {
+describe('Client endpoint tests', () => {
   before(() => runServer(TEST_DATABASE_URL, TEST_PORT)
     .then(() => tearDownOldDb())
     .then(() => registerTestUser())
@@ -90,8 +90,8 @@ describe('Client-a-roo server Client endpoint tests', () => {
     .then(() => seedClientData()));
   after(() => closeServer());
 
-  describe('Client GET request to "/api/clients/"', () => {
-    it('should return a list of clients', () => chai
+  describe('GET "/api/clients/"', () => {
+    it('request to (/) should return a list of clients', () => chai
       .request(app)
       .get('/api/clients/')
       .set('Authorization', `Bearer ${authToken}`)
@@ -100,10 +100,38 @@ describe('Client-a-roo server Client endpoint tests', () => {
         expect(res).to.be.json;
         expect(res.body).to.have.lengthOf.at.least(1);
       }));
+
+    it('request to (GET /:id) with WRONG ID should return null', () => chai
+      .request(app)
+      .get('/api/clients/5c4fc12d0c7019685cd81e00')
+      .set('Authorization', `Bearer ${authToken}`)
+      .then((res) => {
+        expect(res).to.have.status(200);
+        expect(res.body).to.be.equal(null);
+      }));
+
+    it('request to (GET /:id) should return a single client from an ID', () => {
+      let clientId = '';
+      return chai
+        .request(app)
+        .get('/api/clients/')
+        .set('Authorization', `Bearer ${authToken}`)
+        .then((res) => {
+          clientId = res.body[0]._id;
+          return chai
+            .request(app)
+            .get(`/api/clients/${clientId}`)
+            .set('Authorization', `Bearer ${authToken}`)
+            .then((res) => {
+              expect(res.body).to.be.an('object');
+              expect(res.body._id).to.equal(clientId);
+            });
+        });
+    });
   });
 
-  describe('Client POST request to "/api/clients/"', () => {
-    it('should add a client to user list of clients', () => {
+  describe('POST "/api/clients/"', () => {
+    it('request to (/) should add a client to user list of clients', () => {
       const newClient = {
         firstName: 'Test',
         lastName: 'Tester',
@@ -122,6 +150,53 @@ describe('Client-a-roo server Client endpoint tests', () => {
         .then((res) => {
           expect(res).to.have.status(201);
           expect(res).to.be.json;
+        });
+    });
+  });
+
+  describe('DELETE "/api/clients/:id"', () => {
+    it('request to (/:id) should delete a specific client by ID', () => {
+      let clientId = '';
+      return chai
+        .request(app)
+        .get('/api/clients/')
+        .set('Authorization', `Bearer ${authToken}`)
+        .then((res) => {
+          clientId = res.body[0]._id;
+          return chai
+            .request(app)
+            .delete(`/api/clients/${clientId}`)
+            .set('Authorization', `Bearer ${authToken}`)
+            .then((res) => {
+              expect(res).to.have.status(204);
+            });
+        });
+    });
+  });
+
+  describe('PUT "/api/clients/:id"', () => {
+    it('request to (/:id) should find and update a client by ID', () => {
+      const updateClient = {
+        firstName: 'Test123',
+        lastName: 'Tester123',
+      };
+      let clientId = '';
+      return chai
+        .request(app)
+        .get('/api/clients/')
+        .set('Authorization', `Bearer ${authToken}`)
+        .then((res) => {
+          clientId = res.body[0]._id;
+          updateClient.id = clientId;
+          chai
+            .request(app)
+            .put(`/api/clients/${clientId}`)
+            .set('Authorization', `Bearer ${authToken}`)
+            .send(updateClient)
+            .then((res) => {
+              expect(res).to.have.status(200);
+              expect(res.body.firstName).to.equal(updateClient.firstName);
+            });
         });
     });
   });

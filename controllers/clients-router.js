@@ -61,7 +61,6 @@ router.post('/', jwtAuth, (req, res) => {
         return res.status(400).send(error);
       }
       // Get User id from current user
-      console.log(currentUser._id);
       const randomInt = Math.floor(Math.random() * 100);
       Client.create({
         user: currentUser._id,
