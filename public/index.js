@@ -140,7 +140,7 @@ function generateClientDetails(clientData, notesData) {
   clientDetails += `
   <div class="client-detail-top">
     <div class="client-image-container">
-      <img class="client-img-portrait" alt="Image of User" src="${clientData.userImg}">
+      <img class="client-img-portrait" alt="Image of User" src="./img/icons8-user-male-128.svg">
       <span class="placeholder">Placeholder</span>
     </div>
     <div class="client-detail-container">
