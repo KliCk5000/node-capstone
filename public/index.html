@@ -36,7 +36,11 @@
   <body>
     <header role="banner" class="app-header">
       <div class="logo-container">
-        <img class="logo-image" alt="Client-a-roo logo" src="img/icons8-contacts.svg" />
+        <img
+          class="logo-image"
+          alt="Client-a-roo logo"
+          src="img/icons8-contacts.svg"
+        />
         <span class="logo-text">Client-a-roo</span>
       </div>
 
@@ -48,12 +52,26 @@
 
     <section role="region" class="screen">
       <!-- Signup and Login Screen -->
-      <section
-        role="region"
-        class="user-signup-login js-login-screen js-signup-screen"
-      >
-        <form class="user-login-form js-login-screen"></form>
-        <form class="user-signup-form js-signup-screen hidden"></form>
+      <section role="region" class="landing-page js-landing-page">
+        <section role="region" class="app-description">
+          <h1>Never lose track of another contact!</h1>
+          <p>
+            Client-A-Roo is a Client Relationship Manager where you can keep
+            track of your clients, buisness relationships, or other contacts.
+          </p>
+          <p>
+            Never has it been more easy to do so! Just log in, add a new client,
+            and once you click on your client you can add as many notes as you
+            would like!
+          </p>
+        </section>
+        <section
+          role="region"
+          class="user-signup-login js-login-screen js-signup-screen"
+        >
+          <form class="user-login-form js-login-screen"></form>
+          <form class="user-signup-form js-signup-screen hidden"></form>
+        </section>
       </section>
 
       <!-- User's main client list screen or 'dashboard'-->

@@ -28,6 +28,11 @@ function displayLoginScreen() {
         />
       </div>
     </div>
+    <div class="test-account">
+      <div>Test Account</div>
+      <div>username: test</div>
+      <div>password: testing123</div>
+    </div>
     <button type="submit">Log in</button>
     <button class="switch-to-signup-button" type="button">
       Sign up instead
@@ -331,22 +336,29 @@ function requestUpdateNote(noteId, updatedNote) {
 
 function showScreenManager(screenToShow) {
   // Hide all screens
+  $('.js-landing-page').addClass('hidden');
   $('.js-login-screen').addClass('hidden');
+  $('.login-error').empty();
   $('.js-signup-screen').addClass('hidden');
   $('.js-clients-screen').addClass('hidden');
   $('.js-client-details-screen').addClass('hidden');
   $('.screen').removeClass('justified-center');
+  $('.screen').removeClass('background-image');
   $('.user-container').addClass('hidden');
 
   // Show only requested screens
   switch (screenToShow) {
     case 'login':
+      $('.js-landing-page').removeClass('hidden');
       $('.js-login-screen').removeClass('hidden');
       $('.screen').addClass('justified-center');
+      $('.screen').addClass('background-image');
       break;
     case 'signup':
+      $('.js-landing-page').removeClass('hidden');
       $('.js-signup-screen').removeClass('hidden');
       $('.screen').addClass('justified-center');
+      $('.screen').addClass('background-image');
       break;
     case 'client-list':
       $('.user-container').removeClass('hidden');

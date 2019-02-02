@@ -25,11 +25,35 @@ h1 {
   margin: 0;
 }
 
+p {
+  word-wrap: normal;
+}
+
+.landing-page {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  flex-direction: column;
+}
+
 .user-signup-login {
-  margin-top: -10vh;
+  max-width: 265px;
   border-radius: 15px;
   background-color: white;
   box-shadow: 0px 21px 43px -12px rgba(0, 0, 0, 0.75);
+  /* flex-basis: 0; */
+  margin-top: 20px;
+}
+
+.app-description {
+  min-width: 300px;
+  max-width: 800px;
+  padding: 20px;
+  border-radius: 15px;
+  background-color: white;
+  box-shadow: 0px 21px 43px -12px rgba(0, 0, 0, 0.75);
+  /* flex-basis: 90vw; */
+  text-align: center;
 }
 
 form {
@@ -70,6 +94,11 @@ form fieldset {
 legend {
   text-align: center;
   font-weight: bold;
+  font-size: 1.5em;
+}
+
+.test-account {
+  text-align: center;
 }
 
 .error {
@@ -174,19 +203,26 @@ input[type='submit'] {
 /* ===ALL SCREENS=== */
 
 .screen {
-  /* background: #eaedf1; */
-  background: url('../img/back-black-and-white-buildings-1435194-min.jpg') no-repeat center center fixed;
-  background-size: cover;
+  background: #eaedf1;
   min-height: 90vh;
   display: flex;
   flex-direction: column;
+  justify-content: flex-start;
+  padding-top: 20px;
   align-items: center;
+}
+
+.background-image {
+  background: url('../img/edit-low.jpg') no-repeat center center fixed;
+  background-size: cover;
 }
 
 /* ===CLIENTS SCREEN=== */
 
 .clients-screen {
-  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .client {
@@ -205,6 +241,7 @@ input[type='submit'] {
 }
 
 .client-list {
+  width: 100vw;
 }
 
 .client-list-header {
@@ -315,15 +352,24 @@ input[type='submit'] {
   margin-bottom: 5px;
 }
 
+.client-detail-buttons {
+  text-align: center;
+}
+
 .note-card {
   position: relative;
   display: flex;
-  flex-direction: column;
   justify-content: space-between;
   align-items: center;
 }
 
+.note-buttons {
+  display: flex;
+}
+
 .client-notes {
+  display: flex;
+  flex-direction: column;
 }
 
 .client-notes-header {
@@ -356,13 +402,22 @@ form {
     font-size: 45px;
   }
 
-  .clients-screen {
+  .landing-page {
+    padding-top: 50px;
+  }
+
+  .app-description {
+    max-width: 80vw;
+  }
+
+  .client-list {
     width: auto;
-    min-width: 600px;
+    min-width: 90vw;
   }
 
   .client-detail-card {
-    max-width: 600px;
+    width: auto;
+    max-width: 90vw;
   }
 
   .modal {
@@ -375,12 +430,39 @@ form {
 
 /* Medium devices (landscape tablets, 768px and up) */
 @media only screen and (min-width: 768px) {
+  .client-list {
+    width: auto;
+    min-width: 80vw;
+  }
+
+  .client-detail-card {
+    width: auto;
+    max-width: 80vw;
+  }
 }
 
 /* Large devices (laptops/desktops, 992px and up) */
 @media only screen and (min-width: 992px) {
+  .client-list {
+    width: auto;
+    min-width: 70vw;
+  }
+
+  .client-detail-card {
+    width: auto;
+    max-width: 70vw;
+  }
 }
 
 /* Extra large devices (large laptops and desktops, 1200px and up) */
 @media only screen and (min-width: 1200px) {
+  .client-list {
+    width: auto;
+    min-width: 830px;
+  }
+
+  .client-detail-card {
+    width: auto;
+    max-width: 830px;
+  }
 }
