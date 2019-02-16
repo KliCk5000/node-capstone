@@ -4,7 +4,7 @@
 
 ## Apps Purpose
 
-A Client Relationship Manager (CRM) where you can keep track of your clients, including when you should follow up with them.
+A Client Relationship Manager (CRM) where you can keep track of your clients, and add various notes to help you stay on top of your work.
 
 ## Live Demo
 
@@ -20,7 +20,7 @@ Heroku link - https://floating-bayou-15598.herokuapp.com/
 
 ## User stories:
 
-**As a user I should be able to track my many clients and keep track of when I should follow up with them, so that I can increse engagement with my business**
+**As a user I should be able to track my many clients and keep different types of notes organized with that particular client**
 
 ## Built With
 
@@ -148,8 +148,8 @@ Future Feature screens:
 - [x] Code the front end of the app - 8 hours
 - [x] Gather user feedback and Write up your findings - 3 hours
 - [x] Complete any revisions needed - 5 hours
-- [ ] Polish - 6 hours
-- [ ] Comment and clean up code - 3 hours
+- [x] Polish - 6 hours
+- [x] Comment and clean up code - 3 hours
 - [x] Cross-browser test your client and fix any bugs - 6 hours
 
 68 hours total
