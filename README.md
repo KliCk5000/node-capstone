@@ -1,18 +1,58 @@
 # Node Capstone Project - Contact-a-roo
 
-Heroku live link - https://floating-bayou-15598.herokuapp.com/
+[![Build Status](https://travis-ci.org/KliCk5000/node-capstone.svg?branch=master)](https://travis-ci.org/KliCk5000/node-capstone)
 
 ## Apps Purpose
 
-**High level statement about what your users will do with the app:**
-
 A Client Relationship Manager (CRM) where you can keep track of your clients, including when you should follow up with them.
+
+## Live Demo
+
+Heroku link - https://floating-bayou-15598.herokuapp.com/
+
+## Screenshots
+
+<img src="public/img/Screenshot-title.jpg" alt="Title Screen of Client-a-roo" width="800">
+<img src="public/img/Screenshot-client-list.jpg" alt="Client List of Client-a-roo" width="800">
+<img src="public/img/Screenshot-client-details.jpg" alt="Client Details of Client-a-roo" width="800">
+<img src="public/img/Screenshot-add-client.jpg" alt="Add Client Screen of Client-a-roo" width="600">
+<img src="public/img/Screenshot-client-details-mobile.jpg" alt="Client Details on Mobile version of Client-a-roo" width="400">
 
 ## User stories:
 
 **As a user I should be able to track my many clients and keep track of when I should follow up with them, so that I can increse engagement with my business**
 
-MVP important:
+## Built With
+
+### Front End
+
+- HTML
+- CSS (Flexbox)
+- Javascript (ES6)
+
+### Back End
+
+- Node.js
+- Express
+- bcryptjs
+- Json Web Tokens (JWT)
+- Passport.js (authentication)
+- Mongo
+- Mongoose
+- Morgan (logging)
+
+### Testing
+
+- Chai
+- Mocha
+- Faker.js
+
+### Development Tools
+
+- ESLint (moddified AirBnB standard)
+- Prettier
+
+Important functinality for minimum viable product:
 
 - [x] **View list of my clients**
 - [x] **Create a new client**
@@ -33,30 +73,25 @@ Future features to implement:
 - [ ] Connect phone to log and call client
 - [ ] Add ability to add/change user image
 
-## Client information that I will need:
-
-- Name
-- Company
-- Address
-- Phone Number
-- Email
-- Notes
-- Reminders (future implementation)
-
 ## Schemas
 
 Users - id
+username,
 email,
 password,
 list of client
 
-company -
+client -
+user client is assigned to
+client color (used for displaying on client list)
 name,
 phone number,
-address
+address,
+company,
+email
 
 Notes -
-name,
+note body,
 description,
 id of user/client/company
 
@@ -70,7 +105,7 @@ time to be sent
 
 MVP Important:
 
-- [ ] Landing page to describe what the app is (requirement for project)
+- [x] Landing page to describe what the app is (requirement for project)
 - [x] List or Directory of clients
 - [x] Add client contact, look up pre-existing client or add new client
 - [x] Notes: enter notes
@@ -98,23 +133,23 @@ Future Feature screens:
 |                 | delete client              | add notes to client    |
 |                 | create a new client        |                        |
 
-## Timeline
+## Projected Timeline
 
 - [x] Design MVP - 2 hours
 - [x] Setup CI, tests, and first deployment - 2 hours
 - [x] Setup routes
-- [ ] ...and add tests - 2 hours
+- [x] ...and add tests - 2 hours
 - [x] Define Your API by Building Your Client - 5 hours
 - [x] Provision your database - 1 hour
 - [x] Complete GET endpoint and test - 6 hours
 - [x] Complete POST endpoint and test - 6 hours
 - [x] Complete PUT endpoint and test - 6 hours
 - [x] Complete DELETE endpoint and test - 6 hours
-- [ ] Code the front end of the app - 8 hours
-- [ ] Gather user feedback and Write up your findings - 3 hours
-- [ ] Complete any revisions needed - 5 hours
+- [x] Code the front end of the app - 8 hours
+- [x] Gather user feedback and Write up your findings - 3 hours
+- [x] Complete any revisions needed - 5 hours
 - [ ] Polish - 6 hours
 - [ ] Comment and clean up code - 3 hours
-- [ ] Cross-browser test your client and fix any bugs - 6 hours
+- [x] Cross-browser test your client and fix any bugs - 6 hours
 
 68 hours total
