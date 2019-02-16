@@ -112,6 +112,7 @@ function displaySignupScreen() {
     });
   }
 }
+
 function displayAllClientsScreen() {
   // Change username at the top
   requestGetUser().then(user => $('.user-text').text(`${user.firstName} ${user.lastName}`));
@@ -375,6 +376,8 @@ function showScreenManager(screenToShow) {
 }
 
 function addAllEventHandlers() {
+  // Adding all event handlers strictly to the body is a crude way to do this,
+  // however I was having issues with duplication on certain events.
   $('body').on('submit', '.user-signup-form', (event) => {
     event.preventDefault();
     const newUser = {
