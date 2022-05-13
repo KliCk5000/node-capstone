@@ -45,7 +45,7 @@ app.get('/*', (req, res) => {
 let server;
 
 function runServer(databaseUrl = DATABASE_URL, port = PORT) {
-  const options = { useCreateIndex: true, useNewUrlParser: true };
+  const options = { useNewUrlParser: true };
   return new Promise((resolve, reject) => {
     mongoose.connect(
       databaseUrl,
